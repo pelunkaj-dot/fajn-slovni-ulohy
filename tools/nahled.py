@@ -23,7 +23,8 @@ def zavislosti(jmeno, hotove, poradi):
 
 def modul(jmeno):
     kod = (KOREN / 'js' / jmeno).read_text(encoding='utf-8')
-    kod = IMPORT.sub(lambda m: f"const {{{m.group(1)}}} = __m['{m.group(2)}'];", kod)
+    # import { a as b } → const { a: b } (přejmenování v destrukturování se píše dvojtečkou)
+    kod = IMPORT.sub(lambda m: f"const {{{re.sub(r'(\w+)\s+as\s+(\w+)', r'\1: \2', m.group(1))}}} = __m['{m.group(2)}'];", kod)
     assert not re.search(r'^import\s', kod, re.M), f'{jmeno}: nepodporovaný tvar importu'
     jmena = []
     def vyvoz(m):
