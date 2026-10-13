@@ -1,0 +1,83 @@
+/* Světy 9. ročníku. Každý svět: paleta (--w-*), kulisa (--k-bg a třídy k-*), ozdoby karty a klávesnice. */
+.k-toc { animation: k-toc 9s linear infinite; } @keyframes k-toc { to { transform: rotate(360deg); } }
+
+/* továrna: ocel, bezpečnostní žlutočerné pruhy, nýty */
+[data-svet="tovarna"] { --w-pap: #e9edf1; --w-ink: #1d2733; --w-mut: #5b6876; --w-acc: #e8a200; --w-acc2: #3a6ea5; --w-line: #c5ced8; --w-acc-ink: #1d2733; --w-in-bg: #fff; --w-in-ink: #1d2733; --w-hint-bg: #fff6d6; --w-rot: -1deg; --w-raz: #3a6ea5; }
+.ul[data-svet="tovarna"], .tema[data-svet="tovarna"] { border-radius: 4px; border: 0; background-image: radial-gradient(circle, #9aa6b3 2.5px, transparent 3px), radial-gradient(circle, #9aa6b3 2.5px, transparent 3px), radial-gradient(circle, #9aa6b3 2.5px, transparent 3px), radial-gradient(circle, #9aa6b3 2.5px, transparent 3px), linear-gradient(#eef1f4, #dfe5eb);
+  background-position: 8px 8px, calc(100% - 8px) 8px, 8px calc(100% - 8px), calc(100% - 8px) calc(100% - 8px), 0 0; background-size: 6px 6px, 6px 6px, 6px 6px, 6px 6px, auto; background-repeat: no-repeat; box-shadow: inset 0 0 0 2px #9aa6b3, 0 24px 50px -18px rgba(0, 0, 0, .5); }
+.ul[data-svet="tovarna"]::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 10px; background: repeating-linear-gradient(-45deg, #1d2733 0 10px, #e8a200 10px 20px); }
+.ul[data-svet="tovarna"] .ul-q { font-family: var(--f-mono); text-transform: uppercase; font-size: .98rem; }
+.ul[data-svet="tovarna"] .klavesa { background: linear-gradient(#ffcd3c, #e8a200); color: #1d2733; border-radius: 6px; font-family: var(--f-mono); box-shadow: 0 5px 0 #8a6000, inset 0 0 0 2px rgba(0, 0, 0, .15); }
+.ul[data-svet="tovarna"] .k-smaz { background: linear-gradient(#ff5b4d, #c62d1f); color: #fff; border-radius: 50%; width: 54px; height: 54px; justify-self: center; box-shadow: 0 5px 0 #7a1a12; }
+.ul[data-svet="tovarna"] .volba { border-radius: 4px; border-left: 8px solid #e8a200; }
+.kulisa[data-svet="tovarna"] { --k-bg: linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px) 0 0 / 40px 40px, linear-gradient(#56626f, #39434e); }
+[data-theme="dark"] .kulisa[data-svet="tovarna"] { --k-bg: linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px) 0 0 / 40px 40px, linear-gradient(#20262e, #12161b); }
+.k-kolo { fill: #8a96a3; } .k-kolo2 { fill: #e8a200; } .k-osa { fill: #39434e; } .k-pas { fill: #20262e; } .k-bedna { fill: #c98a4b; stroke: #7a5025; stroke-width: 2; } .k-paska { stroke: #e8a200; stroke-width: 4; }
+.k-hazard { fill: #e8a200; } .k-bedny { animation: k-bedny 6s linear infinite; } @keyframes k-bedny { from { transform: translateX(-110px); } to { transform: translateX(0); } }
+
+/* laboratoř: bílé kachlíky, sklo, barevné kapaliny */
+[data-svet="laborator"] { --w-pap: #f7fcfb; --w-ink: #0f3b3a; --w-mut: #4f7a78; --w-acc: #10a37f; --w-acc2: #7b5cff; --w-line: #cfe9e4; --w-in-bg: #fff; --w-in-ink: #0f3b3a; --w-hint-bg: #e9f8f3; --w-rot: 1deg; --w-raz: #7b5cff; }
+.ul[data-svet="laborator"], .tema[data-svet="laborator"] { border-radius: 18px; border: 2px solid #b6e0d8; background-image: linear-gradient(rgba(16, 163, 127, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(16, 163, 127, .06) 1px, transparent 1px); background-size: 16px 16px; box-shadow: 0 24px 50px -18px rgba(15, 59, 58, .45); }
+.ul[data-svet="laborator"] .ul-hlava::after { content: 'pH 7'; flex: none; font: 800 .7rem var(--f-mono); padding: 2px 8px; border-radius: 999px; background: linear-gradient(90deg, #ff4d4d, #ffd84d, #4dd27a, #4d8bff, #9b4dff); color: #fff; text-shadow: 0 1px 1px rgba(0, 0, 0, .5); }
+.ul[data-svet="laborator"] .vstup input { border-radius: 0 0 18px 18px; border-top-width: 0; }
+.ul[data-svet="laborator"] .klavesa { border-radius: 50%; width: 54px; height: 54px; justify-self: center; background: radial-gradient(circle at 35% 30%, #fff, #c9f0e6 60%, #8fdcc8); box-shadow: 0 4px 0 #5fb8a2, inset 0 -6px 10px rgba(16, 163, 127, .25); }
+.ul[data-svet="laborator"] .k-smaz { background: radial-gradient(circle at 35% 30%, #e6dcff, #7b5cff); color: #fff; }
+.kulisa[data-svet="laborator"] { --k-bg: linear-gradient(rgba(0, 0, 0, .05) 1px, transparent 1px) 0 0 / 34px 34px, linear-gradient(90deg, rgba(0, 0, 0, .05) 1px, transparent 1px) 0 0 / 34px 34px, #e3f2ef; }
+[data-theme="dark"] .kulisa[data-svet="laborator"] { --k-bg: linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px) 0 0 / 34px 34px, linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px) 0 0 / 34px 34px, #0d2422; }
+[data-theme="girl"] .kulisa[data-svet="laborator"] { --k-bg: linear-gradient(rgba(0, 0, 0, .05) 1px, transparent 1px) 0 0 / 34px 34px, linear-gradient(90deg, rgba(0, 0, 0, .05) 1px, transparent 1px) 0 0 / 34px 34px, #f5e6f6; }
+.k-stul-l { fill: #2f4f4e; } .k-sklo { fill: rgba(255, 255, 255, .35); stroke: #7fb7ae; stroke-width: 2.5; } .k-tek1 { fill: #ff5fa2; opacity: .8; } .k-tek2 { fill: #7b5cff; opacity: .8; } .k-tek3 { fill: #10a37f; opacity: .75; }
+.k-bublinka { fill: rgba(255, 255, 255, .8); animation: k-bub 2.4s ease-in infinite; animation-delay: var(--d); } @keyframes k-bub { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-26px); opacity: 0; } }
+.k-molekula { stroke: #7fb7ae; stroke-width: 2; fill: none; } .k-atom { fill: #7b5cff; animation: k-trpyt 2s ease-in-out infinite; animation-delay: var(--d); }
+
+/* kino: rudý samet, zlato, vstupenka s perforací */
+[data-svet="kino"] { --w-pap: #fff4e2; --w-ink: #2b0a10; --w-mut: #7d4b52; --w-acc: #b0122b; --w-acc2: #e6b450; --w-line: #ecd3ad; --w-in-bg: #fff; --w-in-ink: #2b0a10; --w-hint-bg: #fff0cf; --w-rot: -3deg; --w-raz: #b0122b; }
+.ul[data-svet="kino"], .tema[data-svet="kino"] { border-radius: 10px; border: 0; -webkit-mask: radial-gradient(circle at 0 50%, transparent 12px, #000 13px) left / 51% 100% no-repeat, radial-gradient(circle at 100% 50%, transparent 12px, #000 13px) right / 51% 100% no-repeat; mask: radial-gradient(circle at 0 50%, transparent 12px, #000 13px) left / 51% 100% no-repeat, radial-gradient(circle at 100% 50%, transparent 12px, #000 13px) right / 51% 100% no-repeat; box-shadow: none; filter: drop-shadow(0 18px 24px rgba(0, 0, 0, .45)); }
+.ul[data-svet="kino"] .ul-hlava { border-bottom: 2px dashed #e6b450; padding-bottom: 8px; }
+.ul[data-svet="kino"] .ul-q { font-family: var(--f-disp); font-weight: 800; letter-spacing: .01em; }
+.ul[data-svet="kino"] .klavesa { background: linear-gradient(#ffe7a8, #e6b450); color: #2b0a10; border-radius: 10px 10px 4px 4px; box-shadow: 0 4px 0 #9c7323; font-weight: 800; }
+.ul[data-svet="kino"] .k-smaz { background: #b0122b; color: #fff; box-shadow: 0 4px 0 #5e0614; }
+.ul[data-svet="kino"] .volba { border-radius: 4px; border: 2px dashed #b0122b; background: #fffaf0; }
+.kulisa[data-svet="kino"] { --k-bg: repeating-linear-gradient(90deg, rgba(0, 0, 0, .25) 0 6px, transparent 6px 26px), linear-gradient(#7a0d1d, #3d0610); }
+[data-theme="girl"] .kulisa[data-svet="kino"] { --k-bg: repeating-linear-gradient(90deg, rgba(0, 0, 0, .15) 0 6px, transparent 6px 26px), linear-gradient(#b53a6b, #6b1a3d); }
+.k-opona { fill: #b0122b; stroke: #e6b450; stroke-width: 4; } .k-sedadlo { fill: #5e0614; stroke: #2b0306; stroke-width: 1.5; } .k-kornout { fill: #fff; stroke: #b0122b; stroke-width: 6; stroke-dasharray: 6 6; } .k-pop { fill: #fff6d6; stroke: #e6b450; stroke-width: 1.5; }
+.k-paprsek { fill: rgba(255, 244, 200, .08); animation: k-blik 3s steps(2) infinite; } @keyframes k-blik { 50% { opacity: .5; } }
+
+/* řeka: voda, vlny, dřevo a plachta */
+[data-svet="reka"] { --w-pap: #f2fbff; --w-ink: #0b2e44; --w-mut: #4c7189; --w-acc: #0a84c6; --w-acc2: #2ec4a6; --w-line: #cde9f6; --w-in-bg: #fff; --w-in-ink: #0b2e44; --w-hint-bg: #e3f6ff; --w-rot: 2deg; --w-raz: #0a84c6; }
+.ul[data-svet="reka"], .tema[data-svet="reka"] { border-radius: 26px 26px 26px 6px; border: 0; padding-bottom: 30px; background-image: radial-gradient(ellipse 20px 10px at 20px 100%, #b9e3f7 98%, transparent 100%); background-size: 40px 14px; background-repeat: repeat-x; background-position: 0 100%; box-shadow: 0 24px 50px -18px rgba(11, 46, 68, .45); }
+.ul[data-svet="reka"] .ul-q { font-family: var(--f-disp); }
+.ul[data-svet="reka"] .klavesa { background: linear-gradient(#b98552, #8a5a2c); color: #fff; border-radius: 4px; box-shadow: 0 4px 0 #5a3a1a, inset 0 2px 0 rgba(255, 255, 255, .25); }
+.ul[data-svet="reka"] .k-smaz { background: #0a84c6; box-shadow: 0 4px 0 #06507a; }
+.sc-vlna { stroke-dasharray: 8 4; }
+.kulisa[data-svet="reka"] { --k-bg: linear-gradient(#bfe8ff, #7cc7ee 55%, #3f9fd1); }
+[data-theme="dark"] .kulisa[data-svet="reka"] { --k-bg: linear-gradient(#0a1b2e, #0d3050 55%, #0a2740); }
+[data-theme="girl"] .kulisa[data-svet="reka"] { --k-bg: linear-gradient(#ffd3e0, #c7b6ef 55%, #8f8be0); }
+.k-voda0 { fill: rgba(10, 132, 198, .35); } .k-voda1 { fill: rgba(10, 132, 198, .5); } .k-voda2 { fill: #0a6aa0; }
+.k-vlny { animation: k-vlny 4s linear infinite; } @keyframes k-vlny { to { transform: translateX(40px); } }
+.k-breh { fill: #3d8a4a; } [data-theme="dark"] .k-breh { fill: #163a20; } .k-smrk { fill: #1f5f2e; } .k-lod { fill: #8a5a2c; } .k-plachta { fill: #fff; stroke: #0b2e44; stroke-width: 1.5; }
+.k-lodka { bottom: 16px; }
+
+/* banka: tmavě zelená, zlato, cenina s gilošem */
+[data-svet="banka"] { --w-pap: #f6f3e6; --w-ink: #12301f; --w-mut: #56705f; --w-acc: #1f6b45; --w-acc2: #c9a227; --w-line: #ddd6b8; --w-in-bg: #fffdf5; --w-in-ink: #12301f; --w-hint-bg: #eef3e3; --w-rot: -1.5deg; --w-raz: #1f6b45; }
+.ul[data-svet="banka"], .tema[data-svet="banka"] { border-radius: 6px; border: 0; background-image: repeating-radial-gradient(circle at 100% 0, transparent 0 8px, rgba(31, 107, 69, .07) 8px 9px), repeating-radial-gradient(circle at 0 100%, transparent 0 8px, rgba(201, 162, 39, .09) 8px 9px); box-shadow: inset 0 0 0 4px #f6f3e6, inset 0 0 0 6px #c9a227, 0 24px 50px -18px rgba(0, 0, 0, .5); }
+.ul[data-svet="banka"] .ul-hlava { font-family: var(--f-mono); }
+.ul[data-svet="banka"] .vstup input { font-family: var(--f-mono); background: #0f2418; color: #7dffa8; letter-spacing: .1em; }
+.ul[data-svet="banka"] .klavesa { background: linear-gradient(#e9ecef, #c3c9cf); border-radius: 4px; font-family: var(--f-mono); box-shadow: 0 4px 0 #7d858c; }
+.ul[data-svet="banka"] .k-smaz { background: #f2c94c; color: #12301f; box-shadow: 0 4px 0 #a07f16; }
+.kulisa[data-svet="banka"] { --k-bg: repeating-linear-gradient(0deg, rgba(0, 0, 0, .12) 0 2px, transparent 2px 60px), linear-gradient(#1f4d35, #0f2a1d); }
+[data-theme="girl"] .kulisa[data-svet="banka"] { --k-bg: repeating-linear-gradient(0deg, rgba(0, 0, 0, .08) 0 2px, transparent 2px 60px), linear-gradient(#8a4a6a, #4a1f38); }
+.k-trezor { fill: #8a96a3; stroke: #4a545e; stroke-width: 5; } .k-trezor2 { fill: #b5c0cb; stroke: #4a545e; stroke-width: 3; } .kulisa[data-svet="banka"] .k-osa { fill: #4a545e; }
+.k-zlato { fill: #e6b93c; stroke: #8a6a10; stroke-width: 1.5; }
+
+/* vesmírná stanice: noc, neon, planety */
+[data-svet="vesmir"] { --w-pap: #0f1530; --w-ink: #e9edff; --w-mut: #9aa3d1; --w-acc: #7cf5ff; --w-acc2: #ff7ad9; --w-line: #2a3363; --w-acc-ink: #0f1530; --w-in-bg: #060a1c; --w-in-ink: #7cf5ff; --w-hint-bg: #1a2147; --w-hint-ink: #e9edff; --w-hint-n: #ff7ad9; --w-rot: 3deg; --w-raz: #ff7ad9; }
+.ul[data-svet="vesmir"], .tema[data-svet="vesmir"] { border-radius: 22px; border: 1.5px solid #3a4590; box-shadow: 0 0 0 1px rgba(124, 245, 255, .25), 0 0 30px rgba(124, 245, 255, .18), 0 24px 50px -18px rgba(0, 0, 0, .7); background-image: radial-gradient(circle at 90% 10%, rgba(255, 122, 217, .18), transparent 40%); }
+.ul[data-svet="vesmir"] .ul-q { font-family: var(--f-mono); letter-spacing: .02em; }
+.ul[data-svet="vesmir"] .vstup input { font-family: var(--f-mono); text-shadow: 0 0 8px rgba(124, 245, 255, .7); border-color: #7cf5ff; }
+.ul[data-svet="vesmir"] .klavesa { background: rgba(124, 245, 255, .08); color: #7cf5ff; border: 1.5px solid #7cf5ff; border-radius: 12px; font-family: var(--f-mono); box-shadow: 0 0 10px rgba(124, 245, 255, .3); }
+.ul[data-svet="vesmir"] .k-smaz { color: #ff7ad9; border-color: #ff7ad9; box-shadow: 0 0 10px rgba(255, 122, 217, .35); }
+.ul[data-svet="vesmir"] .volba { background: #1a2147; color: #e9edff; border: 1.5px solid #3a4590; }
+.kulisa[data-svet="vesmir"] { --k-bg: radial-gradient(ellipse at 20% 30%, rgba(123, 92, 255, .35), transparent 50%), radial-gradient(ellipse at 80% 80%, rgba(255, 122, 217, .2), transparent 50%), #070a1a; }
+.k-hvezda { fill: #fff; animation: k-trpyt 2.5s ease-in-out infinite; animation-delay: var(--d); } .k-planeta { fill: #ff9f5a; } .k-prstenec { fill: none; stroke: #ffd29a; stroke-width: 5; opacity: .8; } .k-mesic { fill: #b8bdd6; } .k-krater { fill: #9399b5; }
+.k-trup { fill: #e9edff; } .k-ploutev { fill: #ff4d6d; } .k-okenko { fill: #7cf5ff; } .k-plamen { fill: #ffb347; animation: k-blik .3s steps(2) infinite; }
+.k-raketa { animation: k-raketa 16s linear infinite; } @keyframes k-raketa { from { transform: translate(60px, 760px) rotate(20deg); } to { transform: translate(360px, -60px) rotate(20deg); } }

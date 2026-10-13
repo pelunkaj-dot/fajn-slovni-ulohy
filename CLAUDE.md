@@ -31,7 +31,7 @@ Každé téma má vlastní **svět** (`svet` v tématu, definice v `js/svety.js`
 - úloha běží na **kulise světa přes celou obrazovku** (`kulisa` v `js/svety.js`), číselná odpověď má **klávesnici světa** (pokladna, automat na jízdenky…), správná odpověď dostane **razítko**, výsledek série je **doklad světa** (účtenka, jízdní řád, protokol…).
 Písma: Bricolage Grotesque (nadpisy), Atkinson Hyperlegible (zadání), JetBrains Mono (štítky, displeje), všechna lokálně ve `fonts/`.
 Nové téma dostane nový svět (nebo výjimečně sdílí svět s příbuzným tématem ve stejném ročníku). Světy fungují ve všech třech motivech.
-Hotové světy: `trh` (601), `expedice` (602), `nadrazi` (603), `plan` (604), `akvarium` (605). Ke kontrole vzhledu: `node tools/svety-snimky.mjs <složka> [téma…]`.
+Hotové světy: 6. ročník `trh`, `expedice`, `nadrazi`, `plan`, `akvarium` (`js/svety.js`, `css/svety.css`); 7. ročník `cukrarna`, `kuchyne`, `benzinka`, `farma`, `stadion`, `vyprodej`, `polar`; 8. ročník `detektiv`, `album`, `dilna`, `zavod`, `hasici`, `cirkus`; 9. ročník `tovarna`, `laborator`, `kino`, `reka`, `banka`, `vesmir` (vždy `js/svetyN.js` a `css/svetyN.css`). Mapy ročníků: `js/mapa.js` (6.), `js/mapa7.js`–`js/mapa9.js`, pomůcky `js/mapapom.js`. Ke kontrole vzhledu: `node tools/svety-snimky.mjs <složka> [téma…]`.
 
 ## Pravidla pro slovní úlohy (poučení ze starého modulu)
 - **Zadání musí odpovídat výpočtu.** Každé číslo v zadání má jasný význam a co se počítá, musí jít ze zadání vyčíst. Žádná nemožná zadání (trojúhelník, který neexistuje; 1 500 žáků ve třídě; 0% alkohol).
@@ -64,5 +64,5 @@ Vanilla JS, ES moduly, bez build kroku. Přehled souborů je v README.md.
 - `KROKY=1 NAP=1 node tools/vzorky.mjs 6` – výpis ukázek ke čtení.
 
 ## Stav (říjen 2026)
-Hotovo: jádro převzaté z FajnGeometrie (bez konstrukcí, čtvercové sítě a postav), světy témat se zvuky, celý 6. ročník: 601–605 (5 témat × 3 úrovně, 70 typů úloh), obrázky pro plán a tělesa (`js/obr.js`).
-Čeká: 7.–9. ročník podle `docs/UCIVO.md`, jazyková kontrola textů (Jan), zapnutí GitHub Pages, odkaz z fajndoucko.cz a zrušení `fdc-plugin/slovni.html`.
+Hotovo: jádro převzaté z FajnGeometrie (bez konstrukcí, čtvercové sítě a postav), světy témat se zvuky, všechny ročníky 6–9 podle `docs/UCIVO.md`: 24 témat × 3 úrovně, každý ročník s vlastní mapou; obrázky (`js/obr.js`: plán, kvádr, pravoúhlý trojúhelník a žebřík, kruh, kužel, jehlan, koule).
+Čeká: jazyková kontrola textů (Jan), zapnutí GitHub Pages, odkaz z fajndoucko.cz a zrušení `fdc-plugin/slovni.html`.

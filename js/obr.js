@@ -45,4 +45,26 @@ export function kruh(pop, o = {}) {
   return `<svg viewBox="0 0 ${W} ${H}" class="ob" role="img" aria-label="kruh"><circle cx="${cx}" cy="${cy}" r="${r}" class="ob-s"/>${o.mezi ? `<circle cx="${cx}" cy="${cy}" r="${r * o.mezi}" class="ob-s" style="fill:var(--w-pap)"/>` : ''}${cara}<circle cx="${cx}" cy="${cy}" r="3" class="ob-q" style="fill:var(--w-ink)"/>
     ${t(o.prumer ? cx : cx + r / 2, cy - 10, pop, jeQ(pop))}${o.uvnitr ? t(cx, cy + 34, o.uvnitr, jeQ(o.uvnitr)) : ''}</svg>`;
 }
+// těleso: 'kuzel' | 'jehlan' | 'koule' | 'valec'; pop = { r, v, a, s } (popisky, chybějící se nekreslí)
+export function teleso(typ, pop = {}) {
+  const W = 300, H = 210, cx = 150, dol = 170, r = 70, e = 20, v = 130;
+  const P = (k, x, y, a = 'middle') => pop[k] ? t(x, y, pop[k], jeQ(pop[k]), a) : '';
+  let g = '';
+  if (typ === 'koule') {
+    g = `<circle cx="${cx}" cy="105" r="80" class="ob-s"/><path d="M${cx - 80} 105a80 22 0 0 0 160 0" class="ob-h" style="fill:none"/><path d="M${cx - 80} 105a80 22 0 0 1 160 0" class="ob-h" style="fill:none" stroke-dasharray="4 4"/><line x1="${cx}" y1="105" x2="${cx + 80}" y2="105" class="ob-z" style="stroke-width:3"/><circle cx="${cx}" cy="105" r="3" style="fill:var(--w-ink)"/>${P('r', cx + 40, 97)}`;
+  } else if (typ === 'kuzel' || typ === 'valec') {
+    const top = dol - v;
+    const plast = typ === 'kuzel' ? `<path d="M${cx - r} ${dol}L${cx} ${top}L${cx + r} ${dol}a${r} ${e} 0 0 1 ${-2 * r} 0z" class="ob-s"/>` : `<path d="M${cx - r} ${top}V${dol}a${r} ${e} 0 0 0 ${2 * r} 0V${top}" class="ob-s"/><ellipse cx="${cx}" cy="${top}" rx="${r}" ry="${e}" class="ob-s"/>`;
+    g = `${plast}<path d="M${cx - r} ${dol}a${r} ${e} 0 0 1 ${2 * r} 0" class="ob-h" style="fill:none" stroke-dasharray="4 4"/><line x1="${cx}" y1="${top}" x2="${cx}" y2="${dol}" class="ob-h" stroke-dasharray="4 4"/><line x1="${cx}" y1="${dol}" x2="${cx + r}" y2="${dol}" class="ob-z" style="stroke-width:3"/>
+      ${P('r', cx + r / 2, dol - 6)}${P('v', cx - 8, (top + dol) / 2, 'end')}${typ === 'kuzel' ? P('s', cx + r / 2 + 10, (top + dol) / 2 - 6, 'start') : ''}`;
+  } else {
+    const a = 120, h = 50, top = 30, x0 = cx - a / 2 - 20, y0 = dol;
+    const A = [x0, y0], B = [x0 + a, y0], C = [x0 + a + 40, y0 - h], D = [x0 + 40, y0 - h], V = [cx, top], S = [(A[0] + C[0]) / 2, (A[1] + C[1]) / 2];
+    const L = (p, q, c, d = '') => `<line x1="${p[0]}" y1="${p[1]}" x2="${q[0]}" y2="${q[1]}" class="${c}" ${d}/>`;
+    g = `<polygon points="${[A, B, C, V].map(q => q.join(',')).join(' ')}" class="ob-s"/>${L(A, D, 'ob-h', 'stroke-dasharray="4 4"')}${L(D, C, 'ob-h', 'stroke-dasharray="4 4"')}${L(D, V, 'ob-h', 'stroke-dasharray="4 4"')}${L(B, V, 'ob-s')}${L(S, V, 'ob-h', 'stroke-dasharray="4 4"')}
+      ${P('a', (A[0] + B[0]) / 2, y0 + 22)}${P('v', S[0] + 8, (S[1] + top) / 2 + 10, 'start')}`;
+  }
+  const nazev = { koule: 'koule', kuzel: 'kužel', valec: 'válec', jehlan: 'jehlan' }[typ];
+  return `<svg viewBox="0 0 ${W} ${H}" class="ob" role="img" aria-label="${nazev}">${g}</svg>`;
+}
 export { cz };

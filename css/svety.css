@@ -13,6 +13,9 @@
 .ul-stitek { display: block; width: max-content; max-width: 100%; margin-bottom: 4px; padding: 1px 8px; font: 700 .72rem/1.5 ui-monospace, Consolas, monospace; letter-spacing: .14em; text-transform: uppercase; background: var(--w-acc); color: var(--w-pap); border-radius: 4px; }
 .ul-svet .vstup input { background: var(--w-in-bg); color: var(--w-in-ink); border-color: var(--w-ink); }
 .ul-svet .jedn, .ul-svet .pozn { color: var(--w-mut); }
+.ul-svet .jednotky .chip { background: color-mix(in srgb, var(--w-ink) 9%, var(--w-pap)); color: var(--w-ink); }
+.ul-svet .jednotky .chip.on { background: var(--w-ink); color: var(--w-pap); }
+.ul-svet .ul-obr { background: color-mix(in srgb, var(--w-acc) 6%, var(--w-pap)); border-color: var(--w-line); }
 .ul-svet .volba { background: var(--w-pap); color: var(--w-ink); border-color: var(--w-ink); box-shadow: 0 3px 0 var(--w-ink); }
 .ul-svet .volba.dobre { background: #dff5e6; color: #11663a; border-color: #11663a; }
 .ul-svet .volba.spatne { background: #fbe3e3; color: #a3202b; border-color: #a3202b; }

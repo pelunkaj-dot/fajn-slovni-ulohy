@@ -213,3 +213,17 @@ h1, h2 { letter-spacing: -.02em; text-wrap: balance; }
 .m8-stan1 { fill: #d7263d; } .m8-stan2 { fill: #fff6e0; } .m8-praporek { fill: #f4b400; animation: m-vlajka 1.4s ease-in-out infinite; transform-origin: 0 -96px; }
 .m8-foto { fill: var(--m-cedule); } .m8-dilna { fill: #c98a4b; } [data-theme="dark"] .m8-dilna { fill: #5a3d22; }
 .m8-hasicske { animation: m7-auto 13s linear infinite; animation-delay: -6s; }
+
+/* mapa 9. ročníku */
+.m9-kopule { fill: #c9d3df; stroke: var(--m-cedule); stroke-width: 1.5; } [data-theme="dark"] .m9-kopule { fill: #5a6a8a; } .m9-sterbina { fill: var(--m-cedule); }
+.m9-dalekohled { transform-origin: 0 -60px; animation: m9-dalekohled 7s ease-in-out infinite alternate; } @keyframes m9-dalekohled { from { transform: rotate(-30deg); } to { transform: rotate(-60deg); } }
+.m9-hala { fill: #9aa6b3; } [data-theme="dark"] .m9-hala { fill: #3a4558; } .m9-komin { fill: #b5483b; } [data-theme="dark"] .m9-komin { fill: #5e2a24; }
+.m9-kour { fill: rgba(255, 255, 255, .7); animation: m9-kour 3.3s ease-out infinite; animation-delay: var(--d); } [data-theme="dark"] .m9-kour { fill: rgba(170, 180, 210, .35); }
+@keyframes m9-kour { from { transform: translate(0, 10px) scale(.6); opacity: 0; } 30% { opacity: 1; } to { transform: translate(14px, -20px) scale(1.3); opacity: 0; } }
+.m9-banka { fill: var(--m-sklo); stroke: var(--m-cedule); stroke-width: 1.5; } .m9-tekutina { fill: #10c08f; animation: k-trpyt 2.6s ease-in-out infinite; }
+.m9-markyza { fill: #b0122b; } .m9-zarovka { fill: #ffe08a; animation: k-trpyt 1.2s steps(2) infinite; animation-delay: var(--d); }
+.m9-plakat { fill: #2b59c3; } .m9-plakat2 { fill: #f4b400; }
+.m9-vlnka { fill: none; stroke: rgba(255, 255, 255, .55); stroke-width: 1.6; stroke-linecap: round; } .m9-vlnky { animation: k-vlny 5s linear infinite; }
+.m9-lod { animation: m9-lod 24s ease-in-out infinite alternate; } @keyframes m9-lod { from { transform: translateX(-120px); } to { transform: translateX(160px); } }
+.m9-plachta { fill: #fff; } .m9-plachta2 { fill: var(--m-strecha); }
+.m9-stit { fill: var(--m-strecha); } .m9-mince { fill: #e6b93c; stroke: #8a6a10; stroke-width: 1.5; } .m9-zabradli { stroke: var(--m-kolej); stroke-width: 3; stroke-dasharray: 2 6; }

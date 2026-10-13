@@ -42,12 +42,12 @@ Od 8. ročníku: Ú1 = vybrat rovnici, která odpovídá zadání (x je vždy po
 - ✓ **806 Kruh a válec v praxi** – kolo, bazén, plechovka (π ≐ 3,14)
 
 ## 9. ročník
-- 901 Společná práce – dva stroje, dvě čerpadla, „nejdřív sám, pak spolu“
-- 902 Směsi a roztoky – míchání, ředění vodou, přidání látky
-- 903 Soustavy rovnic – kusy a ceny, dvě neznámé, slepice a králíci
-- 904 Pohyb tam a zpět – různé rychlosti, proti proudu a po proudu
-- 905 Finanční matematika – jednoduchý úrok, spoření, úvěr, inflace
-- 906 Tělesa v praxi – jehlan, kužel, koule (objem, povrch, materiál)
+- ✓ **901 Společná práce** – dva stroje, dvě čerpadla, „nejdřív sám, pak spolu“
+- ✓ **902 Směsi a roztoky** – míchání, ředění vodou, přidání látky
+- ✓ **903 Soustavy rovnic** – kusy a ceny, dvě neznámé, slepice a králíci
+- ✓ **904 Pohyb tam a zpět** – různé rychlosti, proti proudu a po proudu
+- ✓ **905 Finanční matematika** – jednoduchý úrok, spoření, úvěr, inflace
+- ✓ **906 Tělesa v praxi** – jehlan, kužel, koule (objem, povrch, materiál)
 
 ## Typické chyby, na které musí mít úlohy past
 - sečtení místo násobení (cena + počet kusů), násobení místo dělení
