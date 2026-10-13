@@ -1,0 +1,84 @@
+/* Světy 7. ročníku. Každý svět: paleta (--w-*), kulisa (--k-bg a třídy k-*), ozdoby karty a klávesnice. */
+.sc-txt { font: 800 11px var(--f-mono); fill: currentColor; }
+
+/* cukrárna: pastelová krémová, růžová poleva, dorty */
+[data-svet="cukrarna"] { --w-pap: #fff8f1; --w-ink: #4a2632; --w-mut: #9a6b78; --w-acc: #e0568f; --w-acc2: #f5a3c3; --w-line: #f3d3df; --w-in-bg: #fff; --w-in-ink: #4a2632; --w-hint-bg: #ffeef4; --w-rot: 2deg; --w-raz: #e0568f; }
+.ul[data-svet="cukrarna"], .tema[data-svet="cukrarna"] { border-radius: 30px 30px 18px 18px; border: 0; box-shadow: 0 0 0 4px #ffd6e4, 0 24px 50px -20px rgba(120, 40, 70, .4); }
+.ul[data-svet="cukrarna"]::before, .tema[data-svet="cukrarna"]::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 14px; background: radial-gradient(circle at 12px 0, #e0568f 12px, transparent 13px) 0 0 / 24px 14px repeat-x; }
+.ul[data-svet="cukrarna"] .klavesa { border-radius: 50%; width: 56px; height: 56px; justify-self: center; background: radial-gradient(circle at 40% 35%, #fff, #ffd6e4); box-shadow: 0 5px 0 #e9a9bf; }
+.ul[data-svet="cukrarna"] .k-smaz { background: radial-gradient(circle at 40% 35%, #ff8fb8, #e0568f); color: #fff; }
+.kulisa[data-svet="cukrarna"] { --k-bg: radial-gradient(circle, rgba(224, 86, 143, .14) 3px, transparent 4px) 0 0 / 28px 28px, linear-gradient(#fff3f7, #ffe1ec); }
+[data-theme="dark"] .kulisa[data-svet="cukrarna"] { --k-bg: radial-gradient(circle, rgba(255, 150, 190, .12) 3px, transparent 4px) 0 0 / 28px 28px, linear-gradient(#3a2230, #24141d); }
+.kulisa[data-svet="cukrarna"] .k-a { fill: #e0568f; } .kulisa[data-svet="cukrarna"] .k-b { fill: #fff; } .kulisa[data-svet="cukrarna"] .k-c { fill: #ffc94d; } .kulisa[data-svet="cukrarna"] .k-polic { fill: #c98a6b; }
+
+/* kuchyně: bílé obkladačky, měď, recept */
+[data-svet="kuchyne"] { --w-pap: #fffdf8; --w-ink: #2b2b2b; --w-mut: #7a6f62; --w-acc: #c2632b; --w-acc2: #2e8b6e; --w-line: #e3dccf; --w-in-bg: #fff; --w-in-ink: #2b2b2b; --w-hint-bg: #f4f9f6; --w-rot: -1deg; --w-raz: #2e8b6e; }
+.ul[data-svet="kuchyne"], .tema[data-svet="kuchyne"] { border-radius: 4px; border: 0; background-image: linear-gradient(transparent 31px, rgba(46, 139, 110, .12) 32px); background-size: 100% 32px; box-shadow: 0 20px 40px -18px rgba(0, 0, 0, .35); }
+.ul[data-svet="kuchyne"]::before { content: 'RECEPT'; position: absolute; top: 10px; right: -30px; transform: rotate(35deg); background: #c2632b; color: #fff; font: 800 .65rem var(--f-mono); letter-spacing: .2em; padding: 3px 34px; }
+.ul[data-svet="kuchyne"] .klavesa { border-radius: 4px; background: #fff; box-shadow: 0 0 0 1.5px #d8d0c2, 0 4px 0 #d8d0c2; }
+.kulisa[data-svet="kuchyne"] { --k-bg: linear-gradient(90deg, rgba(0, 0, 0, .06) 1px, transparent 1px) 0 0 / 46px 23px, linear-gradient(rgba(0, 0, 0, .06) 1px, transparent 1px) 0 0 / 46px 23px, #f6f3ee; }
+[data-theme="dark"] .kulisa[data-svet="kuchyne"] { --k-bg: linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px) 0 0 / 46px 23px, linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px) 0 0 / 46px 23px, #1f2626; }
+.kulisa[data-svet="kuchyne"] .k-tyc { stroke: #8a5a2c; stroke-width: 3; fill: #8a5a2c; } .kulisa[data-svet="kuchyne"] .k-a { fill: #c2632b; } .kulisa[data-svet="kuchyne"] .k-b { fill: #9aa3a8; } .kulisa[data-svet="kuchyne"] .k-c { fill: #d8b06a; }
+.kulisa[data-svet="kuchyne"] .k-polic { fill: #6b4a2e; } .k-para { fill: none; stroke: rgba(150, 150, 150, .6); stroke-width: 3; stroke-linecap: round; animation: k-para 2.5s ease-in-out infinite; }
+@keyframes k-para { 50% { transform: translateY(-6px); opacity: .4; } }
+.k-houpe { transform-box: fill-box; transform-origin: top center; animation: k-houpe 4s ease-in-out infinite alternate; animation-delay: var(--d, 0s); }
+@keyframes k-houpe { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
+
+/* čerpací stanice: noc, asfalt, LED displej stojanu */
+[data-svet="benzinka"] { --w-pap: #f4f6f8; --w-ink: #11151c; --w-mut: #5d6675; --w-acc: #00a651; --w-acc2: #ffd400; --w-line: #d3d9e0; --w-in-bg: #0a0d10; --w-in-ink: #4dff8a; --w-hint-bg: #fffbe0; --w-rot: 0deg; --w-raz: #00a651; }
+.ul[data-svet="benzinka"], .tema[data-svet="benzinka"] { border-radius: 14px; border: 0; border-top: 10px solid #00a651; box-shadow: inset 0 -6px 0 #ffd400, 0 24px 50px -20px rgba(0, 0, 0, .5); }
+.ul[data-svet="benzinka"] .vstup input { font-family: var(--f-mono); letter-spacing: .12em; text-align: right; text-shadow: 0 0 8px rgba(77, 255, 138, .8); border-radius: 6px; }
+.ul[data-svet="benzinka"] .klavesa { background: linear-gradient(#e9edf1, #c9d0d8); border-radius: 50%; width: 54px; height: 54px; justify-self: center; box-shadow: 0 4px 0 #8a95a3; font-family: var(--f-mono); }
+.ul[data-svet="benzinka"] .k-smaz { background: linear-gradient(#ffe24d, #ffd400); }
+.kulisa[data-svet="benzinka"] { --k-bg: linear-gradient(#1b2433, #0d121b); }
+[data-theme="light"] .kulisa[data-svet="benzinka"], :root:not([data-theme]) .kulisa[data-svet="benzinka"] { --k-bg: linear-gradient(#8fc6ea, #dfe8ee 60%); }
+.kulisa[data-svet="benzinka"] .k-a { fill: #00a651; } .kulisa[data-svet="benzinka"] .k-b { fill: #e9edf1; } .k-svetlo { fill: #fffbe0; filter: drop-shadow(0 4px 10px #fffbe0); }
+.k-silnice { fill: #2b3038; } .k-pruh { fill: #f4f4f4; } .k-displej { fill: #0a0d10; } .kulisa[data-svet="benzinka"] .k-tyc { fill: none; stroke: #11151c; stroke-width: 4; }
+
+/* farma: pole, plot, slunce */
+[data-svet="farma"] { --w-pap: #fffaf0; --w-ink: #3b2a1a; --w-mut: #7d6a4f; --w-acc: #c0392b; --w-acc2: #f0b429; --w-line: #e6d6b8; --w-in-bg: #fff; --w-in-ink: #3b2a1a; --w-hint-bg: #fdf3d8; --w-rot: -1.5deg; --w-raz: #c0392b; }
+.ul[data-svet="farma"], .tema[data-svet="farma"] { border-radius: 8px; border: 0; box-shadow: 0 0 0 6px #b87a45, 0 0 0 8px #8a5a2c, 0 24px 50px -20px rgba(0, 0, 0, .4); background-image: repeating-linear-gradient(90deg, transparent 0 58px, rgba(138, 90, 44, .06) 58px 60px); }
+.ul[data-svet="farma"] .klavesa { background: linear-gradient(#e7c08c, #d4a265); color: #3b2a1a; border-radius: 6px; box-shadow: 0 4px 0 #8a5a2c; }
+.kulisa[data-svet="farma"] { --k-bg: linear-gradient(#8fd3ff, #d9f2ff 70%); }
+[data-theme="dark"] .kulisa[data-svet="farma"] { --k-bg: linear-gradient(#0b1838, #23305e 70%); } [data-theme="girl"] .kulisa[data-svet="farma"] { --k-bg: linear-gradient(#ff8fb8, #ffd2a5 70%); }
+.k-slunce { fill: #ffd23f; } [data-theme="dark"] .k-slunce { fill: #f3efd9; }
+.k-pole1 { fill: #9bcf5f; } .k-pole2 { fill: #e9c46a; } [data-theme="dark"] .k-pole1 { fill: #2c4a2a; } [data-theme="dark"] .k-pole2 { fill: #4a4224; } .k-plot { fill: #8a5a2c; }
+
+/* stadion: trávník s pruhy, tribuna, brána */
+[data-svet="stadion"] { --w-pap: #ffffff; --w-ink: #0f2a1a; --w-mut: #4d6b58; --w-acc: #1f9d55; --w-acc2: #ffd400; --w-line: #d5e8db; --w-in-bg: #0f2a1a; --w-in-ink: #ffd400; --w-hint-bg: #eef9f1; --w-rot: 1deg; --w-raz: #1f9d55; }
+.ul[data-svet="stadion"], .tema[data-svet="stadion"] { border-radius: 18px; border: 0; box-shadow: 0 0 0 4px #fff, 0 0 0 8px #1f9d55, 0 24px 50px -20px rgba(0, 0, 0, .45); }
+.ul[data-svet="stadion"] .vstup input { font-family: var(--f-mono); letter-spacing: .1em; border-radius: 8px; }
+.ul[data-svet="stadion"] .klavesa { background: #fff; border-radius: 50%; width: 54px; height: 54px; justify-self: center; box-shadow: inset 0 0 0 2px #0f2a1a, 0 4px 0 #0f2a1a; }
+.kulisa[data-svet="stadion"] { --k-bg: repeating-linear-gradient(180deg, #2fa862 0 60px, #279957 60px 120px); }
+[data-theme="dark"] .kulisa[data-svet="stadion"] { --k-bg: radial-gradient(ellipse at 50% 0, rgba(255, 255, 255, .25), transparent 60%), repeating-linear-gradient(180deg, #1c6b3e 0 60px, #175c35 60px 120px); }
+.k-tribuna { fill: #2b3445; } .k-divak { animation: k-divak 1.4s ease-in-out infinite; animation-delay: var(--d); } .k-d0 { fill: #ffd400; } .k-d1 { fill: #ffffff; } .k-d2 { fill: #e63946; }
+@keyframes k-divak { 50% { transform: translateY(-3px); } }
+.k-branka { fill: rgba(255, 255, 255, .12); } .kulisa[data-svet="stadion"] .k-tyc { stroke: #fff; stroke-width: 5; fill: none; } .k-sit { stroke: rgba(255, 255, 255, .45); stroke-width: 1; }
+
+/* výprodej: tmavé obchodní centrum, neon */
+[data-svet="vyprodej"] { --w-pap: #160d22; --w-ink: #fbe9ff; --w-mut: #c7a6d6; --w-acc: #ff2e88; --w-acc2: #2ef2ff; --w-line: #3e2a55; --w-acc-ink: #fff; --w-in-bg: #0b0612; --w-in-ink: #2ef2ff; --w-hint-bg: #2a1740; --w-hint-ink: #fbe9ff; --w-hint-n: #2ef2ff; --w-rot: 0deg; --w-raz: #2ef2ff; }
+.ul[data-svet="vyprodej"], .tema[data-svet="vyprodej"] { border-radius: 16px; border: 2px solid #ff2e88; box-shadow: 0 0 18px rgba(255, 46, 136, .55), inset 0 0 18px rgba(255, 46, 136, .2); }
+.ul[data-svet="vyprodej"] .ul-text b, .ul[data-svet="vyprodej"] .ul-q { text-shadow: 0 0 10px rgba(255, 46, 136, .6); }
+.ul[data-svet="vyprodej"] .vstup input { text-shadow: 0 0 8px #2ef2ff; border-color: #2ef2ff; }
+.ul[data-svet="vyprodej"] .klavesa { background: transparent; color: #2ef2ff; border: 2px solid #2ef2ff; box-shadow: 0 0 10px rgba(46, 242, 255, .4); border-radius: 10px; }
+.ul[data-svet="vyprodej"] .k-smaz { color: #ff2e88; border-color: #ff2e88; box-shadow: 0 0 10px rgba(255, 46, 136, .5); }
+.ul[data-svet="vyprodej"] .volba { background: transparent; border: 2px solid #ff2e88; color: #fbe9ff; box-shadow: none; }
+.kulisa[data-svet="vyprodej"] { --k-bg: radial-gradient(ellipse at 20% 0, rgba(255, 46, 136, .35), transparent 50%), radial-gradient(ellipse at 90% 30%, rgba(46, 242, 255, .25), transparent 50%), #0b0612; }
+.k-neon { font: 800 34px var(--f-disp); fill: none; stroke-width: 2; animation: k-neon 3s infinite; } .k-n1 { stroke: #ff2e88; filter: drop-shadow(0 0 6px #ff2e88); } .k-n2 { stroke: #2ef2ff; filter: drop-shadow(0 0 6px #2ef2ff); animation-delay: 1.3s; }
+@keyframes k-neon { 0%, 18%, 22%, 100% { opacity: 1; } 20% { opacity: .3; } }
+.kulisa[data-svet="vyprodej"] .k-a { fill: #ffd400; } .kulisa[data-svet="vyprodej"] .k-tyc { stroke: #c7a6d6; stroke-width: 1.5; } .k-cena { font: 800 16px var(--f-disp); fill: #160d22; text-anchor: middle; }
+
+/* polární stanice: polární záře, sníh, led */
+[data-svet="polar"] { --w-pap: #f2f9ff; --w-ink: #0b2540; --w-mut: #4f6d8c; --w-acc: #1f7ae0; --w-acc2: #e63946; --w-line: #cfe3f5; --w-in-bg: #fff; --w-in-ink: #0b2540; --w-hint-bg: #e6f3ff; --w-rot: -1deg; --w-raz: #1f7ae0; }
+.ul[data-svet="polar"], .tema[data-svet="polar"] { border-radius: 22px 22px 8px 8px; border: 0; box-shadow: 0 -6px 0 #fff inset, 0 24px 50px -20px rgba(11, 37, 64, .5); background-image: linear-gradient(160deg, rgba(255, 255, 255, .9), transparent 40%); }
+.ul[data-svet="polar"]::after { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 10px; background: radial-gradient(circle at 8px 0, #fff 7px, transparent 8px) 0 0 / 16px 10px repeat-x; pointer-events: none; }
+.ul[data-svet="polar"] .klavesa { background: linear-gradient(#ffffff, #dbeeff); border-radius: 10px; box-shadow: 0 4px 0 #9cc4e8; }
+.ul[data-svet="polar"] .k-smaz { color: #e63946; }
+.kulisa[data-svet="polar"] { --k-bg: linear-gradient(#071a33, #12345e 55%, #2a5c8a); }
+[data-theme="light"] .kulisa[data-svet="polar"], :root:not([data-theme]) .kulisa[data-svet="polar"] { --k-bg: linear-gradient(#bfe3ff, #eaf6ff 60%); }
+[data-theme="girl"] .kulisa[data-svet="polar"] { --k-bg: linear-gradient(#5b3aa6, #c48ad8 60%, #ffd2e4); }
+.k-zare1, .k-zare2 { fill: none; stroke-width: 26; stroke-linecap: round; opacity: .5; filter: blur(8px); animation: k-zare 8s ease-in-out infinite alternate; } .k-zare1 { stroke: #3dffb0; } .k-zare2 { stroke: #8a5cff; animation-delay: -4s; }
+@keyframes k-zare { to { transform: translateY(14px) scaleY(1.2); opacity: .25; } }
+.k-vlocka { fill: #fff; opacity: .85; animation: k-snih 9s linear infinite; animation-delay: var(--d); }
+@keyframes k-snih { to { transform: translate(var(--x), 720px); } }
+.k-led { fill: #e9f6ff; } .k-more { fill: #1d4f7a; }

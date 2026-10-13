@@ -39,6 +39,10 @@ const N = {
   marimba(m, k, v) { const t = ctx.currentTime + k; osc(m, t, 0.45, 'sine', 0.5 * v, { utok: 0.004 }); osc(m + 24, t, 0.07, 'sine', 0.18 * v, { utok: 0.002 }); sumik(t, 0.02, 0.05 * v, 2400); },
   pluck(m, k, v) { const t = ctx.currentTime + k; osc(m, t, 0.42, 'sawtooth', 0.22 * v, { utok: 0.003, filtr: [hz(m) * 9, hz(m) * 1.2], q: 2 }); osc(m - 12, t, 0.3, 'sine', 0.12 * v); },
   bublina(m, k, v) { const t = ctx.currentTime + k; osc(m, t, 0.16, 'sine', 0.42 * v, { glide: nah(7, 12), glideT: 0.1, utok: 0.004 }); },
+  celesta(m, k, v) { const t = ctx.currentTime + k; osc(m + 12, t, 0.7, 'sine', 0.3 * v, { utok: 0.002 }); osc(m + 24, t, 0.25, 'sine', 0.1 * v, { utok: 0.002 }); },
+  synth(m, k, v) { const t = ctx.currentTime + k; osc(m, t, 0.32, 'sawtooth', 0.14 * v, { filtr: [hz(m) * 6, hz(m) * 1.5], q: 4 }); osc(m + 0.08, t, 0.32, 'square', 0.05 * v, { filtr: [hz(m) * 4, hz(m)] }); },
+  vibrafon(m, k, v) { const t = ctx.currentTime + k; osc(m, t, 0.9, 'sine', 0.4 * v, { utok: 0.004 }); osc(m + 12.02, t, 0.5, 'sine', 0.08 * v, { utok: 0.004 }); },
+  pizz(m, k, v) { const t = ctx.currentTime + k; osc(m, t, 0.18, 'triangle', 0.45 * v, { utok: 0.002 }); osc(m + 19, t, 0.06, 'sine', 0.1 * v, { utok: 0.002 }); },
   gong(m, k, v) { const t = ctx.currentTime + k; osc(m, t, 1.4, 'sine', 0.35 * v, { utok: 0.01 }); osc(m + 12, t, 0.7, 'sine', 0.1 * v); osc(m + 19.02, t, 0.4, 'sine', 0.05 * v); },
 };
 const SVET = { // nástroj, základní tón, stupnice (pět tónů)
@@ -47,6 +51,12 @@ const SVET = { // nástroj, základní tón, stupnice (pět tónů)
   nadrazi: { n: 'gong', z: 67, st: [0, 4, 7, 9, 11] },
   plan: { n: 'pluck', z: 62, st: [0, 2, 5, 7, 9] },
   akvarium: { n: 'bublina', z: 72, st: [0, 3, 5, 7, 10] },
+  cukrarna: { n: 'celesta', z: 72, st: [0, 2, 4, 7, 9] }, kuchyne: { n: 'vibrafon', z: 64, st: [0, 2, 4, 7, 11] }, benzinka: { n: 'synth', z: 60, st: [0, 3, 5, 7, 10] },
+  farma: { n: 'pizz', z: 67, st: [0, 2, 4, 7, 9] }, stadion: { n: 'kov', z: 72, st: [0, 4, 7, 9, 12] }, vyprodej: { n: 'synth', z: 67, st: [0, 2, 4, 7, 9] }, polar: { n: 'celesta', z: 79, st: [0, 2, 5, 7, 9] },
+  detektiv: { n: 'vibrafon', z: 57, st: [0, 3, 5, 6, 10] }, album: { n: 'piano', z: 64, st: [0, 2, 4, 7, 9] }, dilna: { n: 'marimba', z: 60, st: [0, 2, 5, 7, 9] },
+  zavod: { n: 'synth', z: 62, st: [0, 2, 4, 7, 9] }, hasici: { n: 'kov', z: 67, st: [0, 4, 7, 9, 12] }, cirkus: { n: 'pizz', z: 72, st: [0, 2, 4, 5, 7] },
+  tovarna: { n: 'marimba', z: 55, st: [0, 3, 5, 7, 10] }, laborator: { n: 'bublina', z: 67, st: [0, 2, 3, 7, 8] }, kino: { n: 'vibrafon', z: 60, st: [0, 2, 4, 7, 9] },
+  reka: { n: 'pluck', z: 64, st: [0, 2, 4, 7, 9] }, banka: { n: 'kov', z: 74, st: [0, 2, 4, 7, 9] }, vesmir: { n: 'celesta', z: 67, st: [0, 2, 6, 7, 11] },
 };
 const VYCH = { n: 'piano', z: 67, st: [0, 2, 4, 7, 9] };
 const VZORCE = [[0, 1, 2], [0, 2, 4], [2, 1, 3], [0, 2, 1, 4], [4, 2, 5], [0, 4, 2, 5], [1, 2, 4], [2, 4, 7], [0, 3, 5], [3, 2, 4, 6]];

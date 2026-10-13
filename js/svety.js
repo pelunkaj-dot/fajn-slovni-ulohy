@@ -1,5 +1,8 @@
 // Světy témat: každé téma má vlastní vzhled úlohy, scénu postupu, znak, hlášky a zvukový nástroj,
 // aby bylo na první pohled poznat, že se změnilo téma. Barvy světa jsou v css/style.css ([data-svet]).
+import { SVETY7, ZNAKY7, KULISY7 } from './svety7.js';
+import { SVETY8, ZNAKY8, KULISY8 } from './svety8.js';
+import { SVETY9, ZNAKY9, KULISY9 } from './svety9.js';
 const f = (x, d = 1) => +x.toFixed(d);
 
 // Scény postupu: p = podíl hotových úloh (0–1), n = počet úloh v sérii. Kreslí se do 300 × 44.
@@ -66,6 +69,7 @@ export const SVETY = {
     chyba2: ['Ponoř se do nápovědy.', 'Pořád to nesedí. Tady je rada.'],
     odhaleni: ['Takhle se to spočítá.', 'Projdi si to krok za krokem.'] },
 };
+Object.assign(SVETY, SVETY7, SVETY8, SVETY9);
 export const svet = id => SVETY[id] || null;
 export const znak = id => Z[id] || '';
 export function scenaSvg(id, p, n, i) {
@@ -91,3 +95,5 @@ const KULISY = {
     <svg class="k-svg k-horni k-kompas" viewBox="0 0 120 120" preserveAspectRatio="xMaxYMin meet"><circle cx="60" cy="60" r="50" class="k-kruh"/><path d="M60 14l8 46-8 46-8-46z" class="k-strelka"/><text x="60" y="10" class="k-sever">S</text></svg>`,
 };
 export const kulisa = id => KULISY[id] ? `<div class="kulisa" data-svet="${id}" aria-hidden="true">${KULISY[id]()}</div>` : '';
+Object.assign(Z, ZNAKY7, ZNAKY8, ZNAKY9);
+Object.assign(KULISY, KULISY7, KULISY8, KULISY9);

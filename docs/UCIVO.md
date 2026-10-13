@@ -25,13 +25,13 @@ Od 8. ročníku: Ú1 = vybrat rovnici, která odpovídá zadání (x je vždy po
 - ✓ **605 Krychle a kvádr v praxi** – akvárium, bazén, krabice (objem, litry, povrch)
 
 ## 7. ročník
-- 701 Zlomky v příběhu – část z celku, zbytek, „třetina z toho, co zbylo“
-- 702 Poměr – rozdělit v poměru, zvětšit a zmenšit v poměru, měřítko mapy
-- 703 Přímá úměrnost – trojčlenka (víc kusů → víc peněz)
-- 704 Nepřímá úměrnost – trojčlenka (víc dělníků → méně dní)
-- 705 Procenta – část, základ, počet procent
-- 706 Procenta v obchodě – sleva, zdražení, původní cena, DPH
-- 707 Celá čísla – teploty, nadmořská výška, stav účtu a dluh
+- ✓ **701 Zlomky v příběhu** – část z celku, zbytek, „třetina z toho, co zbylo“
+- ✓ **702 Poměr** – rozdělit v poměru, zvětšit a zmenšit v poměru, měřítko mapy
+- ✓ **703 Přímá úměrnost** – trojčlenka (víc kusů → víc peněz)
+- ✓ **704 Nepřímá úměrnost** – trojčlenka (víc dělníků → méně dní)
+- ✓ **705 Procenta** – část, základ, počet procent
+- ✓ **706 Procenta v obchodě** – sleva, zdražení, původní cena, DPH
+- ✓ **707 Celá čísla** – teploty, nadmořská výška, stav účtu a dluh
 
 ## 8. ročník
 - 801 Úlohy řešené rovnicí – o kolik / kolikrát, neznámé číslo, součet a rozdíl

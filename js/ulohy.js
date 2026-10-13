@@ -8,13 +8,20 @@ export function N(o) {
   const t = { kind: 'num', unit: '', dec: null, alt: [], traps: [], hints: [], steps: [], ...o };
   const h = t.dec == null ? 1e-6 : 0.5 * 10 ** -t.dec + 1e-9;
   // past, která se v tomhle zadání náhodou rovná správnému výsledku, pastí není
-  t.traps = t.traps.filter(([v]) => Number.isFinite(v) && v >= 0 && [t.ans, ...t.alt].every(a => Math.abs(a - v) > h));
+  t.traps = t.traps.filter(([v]) => Number.isFinite(v) && (v >= 0 || t.zap) && [t.ans, ...t.alt].every(a => Math.abs(a - v) > h));
   return t;
 }
 // --- výběr z možností: ok = správná, bad = špatné; keep = neměnit pořadí (opts zadány ručně) ---
 export function C(o) {
   const opts = o.opts ? o.opts : shuffle([o.ok, ...o.bad]);
   return { kind: 'choice', hints: [], steps: [], ...o, opts, ans: opts.indexOf(o.ok) };
+}
+// --- výběr rovnice: ok = [zápis, f], bad = [[zápis, f], …], x = řešení; f(x) = levá − pravá strana.
+// Test hlídá, že správná rovnice má řešení x a žádná nabízená špatná ho nemá (jinak by byla také správná).
+export function Rv(o) {
+  const t = C({ ...o, ok: o.ok[0], bad: o.bad.map(b => b[0]) });
+  t.rov = { x: o.x, ok: o.ok[1], bad: o.bad.map(b => b[1]) };
+  return t;
 }
 // --- úhel ve stupních a minutách: ans v minutách ---
 export function DM(o) { return { kind: 'dm', hints: [], steps: [], ...o }; }
@@ -63,7 +70,7 @@ export function toChoice(t) {
   const d = t.dec ?? 2, u = t.unit ? ' ' + t.unit : '', spr = cz(t.ans, d), set = new Set([spr]), bad = [];
   const kand = [...shuffle(t.traps.map(x => x[0])), ...shuffle([t.ans + 1, t.ans - 1, t.ans * 2, t.ans / 2, t.ans + 10, t.ans - 2, t.ans + 2, t.ans * 10])];
   for (const k of kand) {
-    if (!(k > 0)) continue;
+    if (!(k > 0) && !(t.zap && Number.isFinite(k))) continue;
     const s = cz(k, d); if (set.has(s)) continue;
     set.add(s); bad.push(s + u); if (bad.length === 3) break;
   }

@@ -5,7 +5,7 @@ import { ROCNIKY } from '../js/obsah.js';
 import { check, toChoice, odpoved } from '../js/ulohy.js';
 import { unitChoices, rd } from '../js/util.js';
 const N = Number(process.env.N || 150);
-const holy = s => String(s).replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/<[^>]+>/g, '');
+const holy = s => String(s).replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/<[^>]+>/g, ' ');
 function texty(t) { return [t.text, t.q, ...(t.hints || []), ...(t.steps || []), ...(t.opts || []), t.nsolProc].filter(x => x != null).map(holy); }
 
 for (const r of ROCNIKY) for (const tema of r.temata) tema.u.forEach((gens, li) => {
@@ -28,7 +28,7 @@ for (const r of ROCNIKY) for (const tema of r.temata) tema.u.forEach((gens, li) 
         if (li === 2) assert.ok(t.hints.length <= 2, kde + ' na úrovni 3 nejvýš 2 nápovědy');
         assert.ok(t.steps.length >= 1, kde + ' chybí postup');
         if (t.kind === 'num') {
-          assert.ok(Number.isFinite(t.ans) && t.ans >= 0, `${kde} ans=${t.ans}`);
+          assert.ok(Number.isFinite(t.ans) && (t.ans >= 0 || t.zap), `${kde} ans=${t.ans}`);
           if (t.dec == null) assert.ok(Math.abs(t.ans - rd(t.ans, 3)) < 1e-9, `${kde} nepřesná hodnota ${t.ans}`);
           else assert.ok(Math.abs(t.ans - rd(t.ans, t.dec)) < 1e-9, `${kde} ans není zaokrouhlené`);
           const h = t.dec == null ? 1e-6 : 0.5 * 10 ** -t.dec;
@@ -39,6 +39,7 @@ for (const r of ROCNIKY) for (const tema of r.temata) tema.u.forEach((gens, li) 
           if (t.units) { const uc = unitChoices(t.unit); assert.ok(uc && uc.includes(t.unit) && new Set(uc).size === 4, `${kde} jednotky ${t.unit}`); assert.ok(!check(t, { val: t.ans, unit: uc.find(x => x !== t.unit) }, true).ok); }
           assert.ok(odpoved(t).length);
         } else if (t.kind === 'choice') {
+          if (t.rov) { assert.ok(Math.abs(t.rov.ok(t.rov.x)) < 1e-6, `${kde} správná rovnice nemá řešení ${t.rov.x}`); t.rov.bad.forEach((f, k) => assert.ok(Math.abs(f(t.rov.x)) > 1e-6, `${kde} špatná rovnice ${k + 1} má také řešení ${t.rov.x}: ${t.opts.join(' | ')}`)); }
           assert.ok(t.ans >= 0 && t.opts.length >= 2 && new Set(t.opts).size === t.opts.length, `${kde} možnosti ${t.opts}`);
         } else if (t.kind === 'dm') {
           assert.ok(Number.isInteger(t.ans) && t.ans > 0, `${kde} ${t.ans}`);

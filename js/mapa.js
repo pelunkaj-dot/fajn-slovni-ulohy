@@ -2,14 +2,17 @@
 // Barvy podle denní doby (motiv): světlý = den, tmavý = noc, růžový = západ slunce (css/vzhled.css, proměnné --m-*).
 // Místa jsou tlačítka nad obrázkem (MISTA: poloha v % šířky a výšky).
 
-export const MISTA = { trh: [22, 80], nadrazi: [21, 41], plan: [51, 21], akvarium: [84, 58], expedice: [86, 33] };
+import { okna, strom, lampa, mrak } from './mapapom.js';
+import { MISTA7, mapa7 } from './mapa7.js';
+import { MISTA8, mapa8 } from './mapa8.js';
+import { MISTA9, mapa9 } from './mapa9.js';
 
-const okna = (x, y, sl, rad, w, h, dx, dy) => Array.from({ length: sl * rad }, (_, i) => `<rect x="${x + (i % sl) * dx}" y="${y + Math.floor(i / sl) * dy}" width="${w}" height="${h}" rx="1.5" class="m-okno" style="--d:${(i * 0.37) % 3}s"/>`).join('');
-const strom = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-2" y="-6" width="4" height="16" class="m-kmen"/><circle cx="0" cy="-16" r="13" class="m-koruna"/><circle cx="-7" cy="-10" r="9" class="m-koruna2"/></g>`;
-const lampa = x => `<g transform="translate(${x} 336)"><rect x="-1.2" y="0" width="2.4" height="30" class="m-kmen"/><circle cx="0" cy="0" r="4" class="m-lampa"/><circle cx="0" cy="0" r="16" class="m-zare"/></g>`;
-const mrak = (x, y, s, d) => `<g class="m-mrak" style="--d:${d}s"><g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="0" rx="26" ry="11"/><circle cx="-9" cy="-7" r="11"/><circle cx="8" cy="-10" r="14"/></g></g>`;
+export const MISTA = { trh: [22, 80], nadrazi: [21, 41], plan: [51, 21], akvarium: [84, 58], expedice: [86, 33], ...MISTA7, ...MISTA8, ...MISTA9 };
 
-export function mapaSvg() {
+export function mapaSvg(rocnik = 6) {
+  if (rocnik === 7) return mapa7();
+  if (rocnik === 8) return mapa8();
+  if (rocnik === 9) return mapa9();
   const hvezdy = Array.from({ length: 26 }, (_, i) => `<circle cx="${(i * 97) % 600}" cy="${(i * 53) % 150 + 6}" r="${i % 3 ? 1 : 1.6}" class="m-hvezda" style="--d:${(i % 5) * 0.6}s"/>`).join('');
   const prazce = Array.from({ length: 61 }, (_, i) => `<rect x="${i * 10}" y="301" width="5" height="7" class="m-prazec"/>`).join('');
   return `<svg viewBox="0 0 600 380" class="mapa-obr" role="img" aria-label="Čtvrť 6. ročníku: tržnice, nádraží, stavba, akvárium a tábor na kopci">

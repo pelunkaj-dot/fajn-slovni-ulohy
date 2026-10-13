@@ -188,3 +188,18 @@ h1, h2 { letter-spacing: -.02em; text-wrap: balance; }
   .lista .hod { min-width: 0; max-width: 78px; } .lista .hod-n { font-size: .78rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .lista .ik { width: 34px; height: 34px; }
 }
+
+/* mapa 7. ročníku */
+.m7-snih { fill: #ffffff; opacity: .95; } .m7-vitr { fill: var(--m-strecha); animation: m-trpyt 2s infinite; }
+.m7-stodola { fill: #c0392b; } [data-theme="dark"] .m7-stodola { fill: #6e2a2a; } .m7-lem { fill: none; stroke: #fff; stroke-width: 2.5; stroke-linejoin: round; }
+.m7-brazda { fill: none; stroke: color-mix(in srgb, var(--m-kopec1) 60%, #c9a55a); stroke-width: 5; stroke-linecap: round; }
+.m7-tribuna { fill: color-mix(in srgb, var(--m-bud2) 80%, var(--m-cedule)); } .m7-travnik { fill: #3fae5f; } [data-theme="dark"] .m7-travnik { fill: #22673a; }
+.m7-cara { fill: none; stroke: rgba(255, 255, 255, .8); stroke-width: 1.5; } .m7-reflektor { fill: var(--m-lampa); filter: drop-shadow(0 0 calc(4px + var(--m-zare) * 10px) var(--m-lampa)); }
+.m7-silnice { fill: var(--m-kolej); } .m7-pruh { fill: #f5f5f5; opacity: .8; } .m7-strisa { fill: #00a651; } .m7-stojan { fill: #e9edf1; }
+.m7-auto { animation: m7-auto 11s linear infinite; } @keyframes m7-auto { from { transform: translateX(-60px); } to { transform: translateX(640px); } }
+.m7-ruzova { fill: #f06fa4; } .m7-kour { fill: none; stroke: rgba(200, 200, 200, .7); stroke-width: 4; stroke-linecap: round; animation: k-para 3s ease-in-out infinite; }
+.m7-mall { fill: color-mix(in srgb, var(--m-bud) 60%, #2a2140); } .m7-mall2 { fill: #160d22; } .m7-neon { font: 800 9px var(--f-mono); fill: #ff2e88; text-anchor: middle; letter-spacing: .08em; filter: drop-shadow(0 0 3px #ff2e88); animation: k-neon 4s infinite; }
+/* zlomek nad sebou */
+.zl { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; line-height: 1.05; margin: 0 .12em; font-weight: 700; }
+.zl > span:first-child { border-bottom: 2px solid currentColor; padding: 0 .15em; }
+.zl > span { font-size: .85em; }

@@ -58,7 +58,7 @@ function kresli() { ({ vyprava, obrana: obranaUvod, vyzva, mesto, odznaky })[zal
 function vyprava() {
   const R = rocnik(), h = hodnost();
   const mapa = R.temata.every(t => MISTA[t.svet]);
-  ram(`${mapa ? `<section class="mapa"><div class="mapa-titul"><b>${R.rocnik}.</b><span>ročník</span></div>${mapaSvg()}
+  ram(`${mapa ? `<section class="mapa"><div class="mapa-titul"><b>${R.rocnik}.</b><span>ročník</span></div>${mapaSvg(R.rocnik)}
       ${R.temata.map((t, i) => { const [x, y] = MISTA[t.svet]; return `<button class="mapa-pin" data-svet="${t.svet}" data-cil="${t.id}" style="left:${x}%;top:${y}%;--d:${i * 0.45}s" aria-label="${t.nazev}">${znak(t.svet)}<span class="pin-n">${svet(t.svet).nazev}</span><span class="pin-hv">${hvezdyTematu(t.id)}/9★</span></button>`; }).join('')}</section>` : ''}
     <p class="uvod-t">${h.dalsi ? `Do hodnosti <b>${h.dalsi}</b> zbývá <b>${h.zbyva}</b> bodů.` : 'Nejvyšší hodnost je tvoje.'}</p>
     ${opakKarta()}
