@@ -34,12 +34,12 @@ Od 8. ročníku: Ú1 = vybrat rovnici, která odpovídá zadání (x je vždy po
 - ✓ **707 Celá čísla** – teploty, nadmořská výška, stav účtu a dluh
 
 ## 8. ročník
-- 801 Úlohy řešené rovnicí – o kolik / kolikrát, neznámé číslo, součet a rozdíl
-- 802 Věkové úlohy – dnes, za n let, před n lety
-- 803 Úlohy o obvodu a částech – strany v poměru, „o 3 cm delší než…“
-- 804 Pohyb – setkání v protisměru, dohánění, s výpočtem času a dráhy
-- 805 Pythagorova věta v praxi – žebřík, úhlopříčka televize, stožár a lano
-- 806 Kruh a válec v praxi – kolo, bazén, plechovka (π ≐ 3,14)
+- ✓ **801 Úlohy řešené rovnicí** – o kolik / kolikrát, neznámé číslo, součet a rozdíl
+- ✓ **802 Věkové úlohy** – dnes, za n let, před n lety
+- ✓ **803 Úlohy o obvodu a částech** – strany v poměru, „o 3 cm delší než…“
+- ✓ **804 Pohyb** – setkání v protisměru, dohánění, s výpočtem času a dráhy
+- ✓ **805 Pythagorova věta v praxi** – žebřík, úhlopříčka televize, stožár a lano
+- ✓ **806 Kruh a válec v praxi** – kolo, bazén, plechovka (π ≐ 3,14)
 
 ## 9. ročník
 - 901 Společná práce – dva stroje, dvě čerpadla, „nejdřív sám, pak spolu“

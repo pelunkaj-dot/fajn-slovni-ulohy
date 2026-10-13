@@ -203,3 +203,13 @@ h1, h2 { letter-spacing: -.02em; text-wrap: balance; }
 .zl { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; line-height: 1.05; margin: 0 .12em; font-weight: 700; }
 .zl > span:first-child { border-bottom: 2px solid currentColor; padding: 0 .15em; }
 .zl > span { font-size: .85em; }
+
+/* mapa 8. ročníku */
+.m8-trat { fill: #555b66; } [data-theme="dark"] .m8-trat { fill: #2b3040; } .m8-vlajka { fill: #fff; stroke: #111; stroke-width: 1; }
+.m8-formule { animation: m8-kolo 5s linear infinite; } @keyframes m8-kolo { 0% { transform: translate(-76px, 0); } 25% { transform: translate(0, 17px); } 50% { transform: translate(76px, 0); } 75% { transform: translate(0, -17px); } 100% { transform: translate(-76px, 0); } }
+.m8-strecha { fill: var(--m-cedule); } .m8-neon-tabule { fill: #1b1b2a; } .m8-neon-svisle { font: 800 7px var(--f-mono); fill: #ff4d6d; writing-mode: vertical-rl; letter-spacing: .1em; filter: drop-shadow(0 0 3px #ff4d6d); animation: k-neon 5s infinite; }
+.m8-cihla { fill: #c0503f; } [data-theme="dark"] .m8-cihla { fill: #6b2c25; } .m8-vrata { fill: color-mix(in srgb, var(--m-bud) 70%, #888); } .m8-lamela { stroke: rgba(0, 0, 0, .25); stroke-width: 1.5; fill: none; }
+.m8-maják { fill: #ff3b3b; animation: k-majak .8s steps(1) infinite; }
+.m8-stan1 { fill: #d7263d; } .m8-stan2 { fill: #fff6e0; } .m8-praporek { fill: #f4b400; animation: m-vlajka 1.4s ease-in-out infinite; transform-origin: 0 -96px; }
+.m8-foto { fill: var(--m-cedule); } .m8-dilna { fill: #c98a4b; } [data-theme="dark"] .m8-dilna { fill: #5a3d22; }
+.m8-hasicske { animation: m7-auto 13s linear infinite; animation-delay: -6s; }

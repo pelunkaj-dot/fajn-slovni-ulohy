@@ -73,7 +73,7 @@ export function unitChoices(u) {
     const jiny = PREF[PREF.indexOf(p) + (p === 'km' || p === 'm' ? -1 : 1)];
     return shuffle([p, p + '²', p + '³', jiny + e]);
   }
-  const zvl = { 'Kč': ['Kč', 'kg', 'ks', 'l'], kg: ['kg', 'g', 't', 'l'], g: ['g', 'kg', 'mg', 'ml'], h: ['h', 'min', 's', 'km'], min: ['min', 'h', 's', 'm'], 'km/h': ['km/h', 'km', 'h', 'm/s'],
+  const zvl = { 'Kč': ['Kč', 'kg', 'ks', 'l'], kg: ['kg', 'g', 't', 'l'], g: ['g', 'kg', 'mg', 'ml'], h: ['h', 'min', 's', 'km'], min: ['min', 'h', 's', 'm'], s: ['s', 'min', 'h', 'm'], 'm/s': ['m/s', 'km/h', 'm', 's'], 'km/h': ['km/h', 'km', 'h', 'm/s'],
     l: ['l', 'ml', 'dm²', 'm³'], hl: ['hl', 'l', 'm²', 'dm³'], ml: ['ml', 'l', 'cm²', 'dm³'],
     ha: ['ha', 'a', 'm', 'km'], a: ['a', 'ha', 'm', 'm³'] };
   return zvl[u] ? shuffle(zvl[u]) : null;

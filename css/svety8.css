@@ -1,0 +1,74 @@
+/* Světy 8. ročníku. */
+
+/* detektivní kancelář: spisová složka, korková nástěnka, červená nit */
+[data-svet="detektiv"] { --w-pap: #f3e3b6; --w-ink: #2a2118; --w-mut: #6e5e45; --w-acc: #b3261e; --w-acc2: #2f4a6b; --w-line: #d6c28f; --w-in-bg: #fffaf0; --w-in-ink: #2a2118; --w-hint-bg: #fffaf0; --w-rot: -2deg; --w-raz: #b3261e; }
+.ul[data-svet="detektiv"], .tema[data-svet="detektiv"] { border-radius: 4px 14px 6px 6px; border: 0; box-shadow: 0 24px 50px -18px rgba(0, 0, 0, .55); background-image: linear-gradient(transparent 27px, rgba(110, 94, 69, .14) 28px); background-size: 100% 28px; }
+.ul[data-svet="detektiv"] { margin-top: 18px; }
+.ul[data-svet="detektiv"]::before { content: 'SPIS'; position: absolute; top: -1px; left: 18px; transform: translateY(-100%); padding: 4px 18px 2px; background: #f3e3b6; border-radius: 8px 8px 0 0; font: 800 .7rem var(--f-mono); letter-spacing: .2em; color: #6e5e45; }
+.ul[data-svet="detektiv"] { overflow: visible; }
+.ul[data-svet="detektiv"] .ul-q { font-family: var(--f-mono); font-size: 1.05rem; }
+.ul[data-svet="detektiv"] .volba { font-family: var(--f-mono); background: #fffaf0; border-radius: 2px; box-shadow: 2px 2px 0 #6e5e45; border: 1.5px solid #2a2118; }
+.ul[data-svet="detektiv"] .klavesa { background: #2a2118; color: #f3e3b6; border-radius: 50%; width: 54px; height: 54px; justify-self: center; font-family: var(--f-mono); box-shadow: 0 4px 0 #000, inset 0 0 0 3px #6e5e45; }
+.kulisa[data-svet="detektiv"] { --k-bg: radial-gradient(ellipse at 85% 100%, rgba(255, 220, 140, .35), transparent 45%), linear-gradient(#1c2230, #10141c); }
+[data-theme="light"] .kulisa[data-svet="detektiv"], :root:not([data-theme]) .kulisa[data-svet="detektiv"] { --k-bg: radial-gradient(ellipse at 85% 100%, rgba(255, 220, 140, .45), transparent 45%), linear-gradient(#5b5245, #3a332a); }
+.k-korek { fill: #b88a55; stroke: #6b4a2a; stroke-width: 6; } .k-papir { fill: #fffaf0; } .k-spendlik { fill: #b3261e; } .k-nit { fill: none; stroke: #d62828; stroke-width: 1.6; }
+.kulisa[data-svet="detektiv"] .k-svetlo { fill: rgba(255, 220, 140, .25); } .kulisa[data-svet="detektiv"] .k-lampa { fill: #2f4a6b; }
+
+/* rodinné album: polaroidy, sépie, kůže */
+[data-svet="album"] { --w-pap: #fffdf6; --w-ink: #3b2a1f; --w-mut: #8a7360; --w-acc: #a0522d; --w-acc2: #e8c39e; --w-line: #e6d8c3; --w-in-bg: #fff; --w-in-ink: #3b2a1f; --w-hint-bg: #f8efe1; --w-rot: 2.5deg; --w-raz: #a0522d; }
+.ul[data-svet="album"], .tema[data-svet="album"] { border-radius: 2px; border: 0; padding-bottom: 28px; box-shadow: 0 2px 0 #e6d8c3, 0 24px 50px -18px rgba(60, 30, 10, .5); }
+.ul[data-svet="album"]::before, .ul[data-svet="album"]::after { content: ''; position: absolute; width: 34px; height: 34px; top: -2px; background: linear-gradient(135deg, #3b2a1f 50%, transparent 50%); opacity: .8; }
+.ul[data-svet="album"]::before { left: -2px; } .ul[data-svet="album"]::after { right: -2px; transform: scaleX(-1); }
+.ul[data-svet="album"] .ul-q { font-family: var(--f-disp); font-style: italic; }
+.ul[data-svet="album"] .klavesa { background: #f2e6d3; border-radius: 4px; box-shadow: 0 4px 0 #c9b393; }
+.kulisa[data-svet="album"] { --k-bg: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, .08), transparent 40%), repeating-linear-gradient(45deg, rgba(0, 0, 0, .05) 0 2px, transparent 2px 6px), #6b3f2a; }
+[data-theme="girl"] .kulisa[data-svet="album"] { --k-bg: repeating-linear-gradient(45deg, rgba(0, 0, 0, .04) 0 2px, transparent 2px 6px), #b56b86; }
+.k-polaroid { fill: #fffdf6; filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .4)); } .k-foto { fill: #c9a27e; opacity: .8; }
+
+/* dílna: perforovaná deska, dřevo, nářadí */
+[data-svet="dilna"] { --w-pap: #f1d7a8; --w-ink: #2f2214; --w-mut: #74593a; --w-acc: #2b6cb0; --w-acc2: #e07a1f; --w-line: #d8b67e; --w-in-bg: #fff8ea; --w-in-ink: #2f2214; --w-hint-bg: #fff8ea; --w-rot: -1deg; --w-raz: #2b6cb0; }
+.ul[data-svet="dilna"], .tema[data-svet="dilna"] { border-radius: 6px; border: 0; background-image: repeating-linear-gradient(88deg, rgba(116, 89, 58, .08) 0 2px, transparent 2px 13px), linear-gradient(#f4dcaf, #ecce98); box-shadow: inset 0 -5px 0 rgba(0, 0, 0, .12), 0 24px 50px -18px rgba(0, 0, 0, .5); }
+.ul[data-svet="dilna"] .ul-hlava::after { content: ''; flex: none; width: 90px; height: 14px; background: repeating-linear-gradient(90deg, #2f2214 0 1px, transparent 1px 9px), #ffd34d; border-radius: 2px; }
+.ul[data-svet="dilna"] .klavesa { background: linear-gradient(#d9e2ec, #b5c3d1); border-radius: 6px; box-shadow: 0 4px 0 #6b7c8f; }
+.kulisa[data-svet="dilna"] { --k-bg: radial-gradient(circle, rgba(0, 0, 0, .25) 2px, transparent 3px) 0 0 / 22px 22px, #c9a06b; }
+[data-theme="dark"] .kulisa[data-svet="dilna"] { --k-bg: radial-gradient(circle, rgba(0, 0, 0, .45) 2px, transparent 3px) 0 0 / 22px 22px, #4a3824; }
+.k-drevo { fill: #a0682c; } .k-kov { fill: #8a96a3; } .k-zuby { fill: none; stroke: #8a96a3; stroke-width: 1.5; } .k-stul { fill: #8a5a2c; } .k-hrana-d { stroke: #6b4420; stroke-width: 4; } .k-piliny { fill: #e8c48a; }
+
+/* závodní okruh: asfalt, obrubníky, šachovnice */
+[data-svet="zavod"] { --w-pap: #1d2026; --w-ink: #f5f5f5; --w-mut: #a5abb5; --w-acc: #ff5a1f; --w-acc2: #ffd400; --w-line: #3b404a; --w-acc-ink: #fff; --w-in-bg: #0b0c0f; --w-in-ink: #ffd400; --w-hint-bg: #2a2e36; --w-hint-ink: #f5f5f5; --w-hint-n: #ffd400; --w-rot: 0deg; --w-raz: #ffd400; }
+.ul[data-svet="zavod"], .tema[data-svet="zavod"] { border-radius: 16px 4px 16px 4px; border: 0; box-shadow: inset 6px 0 0 #ff5a1f, 0 24px 50px -18px rgba(0, 0, 0, .6); background-image: linear-gradient(115deg, transparent 70%, rgba(255, 90, 31, .12) 70% 74%, transparent 74%); }
+.ul[data-svet="zavod"] .ul-q { font-style: italic; text-transform: uppercase; letter-spacing: .02em; }
+.ul[data-svet="zavod"] .vstup input { font-family: var(--f-mono); letter-spacing: .14em; text-shadow: 0 0 8px rgba(255, 212, 0, .6); }
+.ul[data-svet="zavod"] .klavesa { background: linear-gradient(#3b404a, #2a2e36); color: #fff; border-radius: 8px; box-shadow: 0 4px 0 #000; font-family: var(--f-mono); }
+.ul[data-svet="zavod"] .k-smaz { background: #ff5a1f; }
+.ul[data-svet="zavod"] .volba { background: #2a2e36; color: #fff; border: 2px solid #3b404a; box-shadow: none; transform: skewX(-6deg); }
+.kulisa[data-svet="zavod"] { --k-bg: linear-gradient(#5fa75b, #3e7f3b 60%); }
+[data-theme="dark"] .kulisa[data-svet="zavod"] { --k-bg: radial-gradient(ellipse at 50% 0, rgba(255, 255, 255, .2), transparent 60%), linear-gradient(#1d3a22, #0f2414); }
+.k-asfalt { fill: #33373f; } .k-obrubnik-b { fill: #fff; } .k-obrubnik-c { fill: #e63946; } .k-formule { fill: #ff5a1f; } .k-pneu { fill: #111; } .k-sachy { fill: #111; }
+.k-auto { animation: k-auto 4s linear infinite; } @keyframes k-auto { from { transform: translateX(-90px); } to { transform: translateX(480px); } }
+
+/* hasičská stanice: červená, chrom, žebřík, maják */
+[data-svet="hasici"] { --w-pap: #fff5f2; --w-ink: #2b0d0b; --w-mut: #7a4a45; --w-acc: #d62828; --w-acc2: #f2c14e; --w-line: #f0cfc8; --w-in-bg: #fff; --w-in-ink: #2b0d0b; --w-hint-bg: #fff0d6; --w-rot: 1.5deg; --w-raz: #d62828; }
+.ul[data-svet="hasici"], .tema[data-svet="hasici"] { border-radius: 12px; border: 0; box-shadow: 0 0 0 5px #d62828, 0 0 0 8px #c9ccd1, 0 24px 50px -18px rgba(0, 0, 0, .5); }
+.ul[data-svet="hasici"] .ul-hlava { background: linear-gradient(var(--w-pap), var(--w-pap)) padding-box, repeating-linear-gradient(-45deg, #d62828 0 10px, #fff 10px 20px) border-box; border-top: 12px solid transparent; margin: -14px -14px 12px; padding: 8px 14px 4px; }
+.ul[data-svet="hasici"] .klavesa { background: linear-gradient(#f4f5f7, #c9ccd1); border-radius: 50%; width: 54px; height: 54px; justify-self: center; box-shadow: 0 4px 0 #8a8f98; }
+.ul[data-svet="hasici"] .k-smaz { background: linear-gradient(#ff5a5a, #d62828); color: #fff; box-shadow: 0 4px 0 #8a1414; }
+.kulisa[data-svet="hasici"] { --k-bg: linear-gradient(90deg, rgba(0, 0, 0, .12) 2px, transparent 2px) 0 0 / 48px 24px, linear-gradient(rgba(0, 0, 0, .12) 2px, transparent 2px) 0 0 / 48px 24px, #b5483b; }
+[data-theme="dark"] .kulisa[data-svet="hasici"] { --k-bg: linear-gradient(90deg, rgba(0, 0, 0, .25) 2px, transparent 2px) 0 0 / 48px 24px, linear-gradient(rgba(0, 0, 0, .25) 2px, transparent 2px) 0 0 / 48px 24px, #4a1d18; }
+.k-majak { fill: #d62828; animation: k-majak .8s steps(1) infinite; } .k-majak2 { fill: #3d8bff; animation: k-majak .8s steps(1) infinite reverse; }
+@keyframes k-majak { 50% { opacity: .25; } }
+.k-zebr { stroke: #c9ccd1; stroke-width: 6; fill: none; } .k-auto-h { fill: #d62828; } .k-okno-h { fill: #bfe3ff; }
+
+/* cirkus: pruhovaný stan, reflektory, manéž */
+[data-svet="cirkus"] { --w-pap: #fff6e0; --w-ink: #2a1238; --w-mut: #7a5a86; --w-acc: #d7263d; --w-acc2: #f4b400; --w-line: #f0dcae; --w-in-bg: #fff; --w-in-ink: #2a1238; --w-hint-bg: #fff0c2; --w-rot: -2deg; --w-raz: #d7263d; }
+.ul[data-svet="cirkus"], .tema[data-svet="cirkus"] { border-radius: 24px; border: 0; box-shadow: 0 0 0 6px #f4b400, 0 0 0 9px #d7263d, 0 24px 50px -18px rgba(42, 18, 56, .55); }
+.ul[data-svet="cirkus"]::before { content: '★ ★ ★'; position: absolute; top: 8px; right: 16px; color: #f4b400; letter-spacing: .3em; font-size: .8rem; }
+.ul[data-svet="cirkus"] .ul-q { font-family: var(--f-disp); font-weight: 800; }
+.ul[data-svet="cirkus"] .klavesa { border-radius: 50%; width: 54px; height: 54px; justify-self: center; color: #fff; font-weight: 800; box-shadow: 0 4px 0 rgba(0, 0, 0, .3); }
+.ul[data-svet="cirkus"] .klavesa:nth-child(3n+1) { background: #d7263d; } .ul[data-svet="cirkus"] .klavesa:nth-child(3n+2) { background: #2b59c3; } .ul[data-svet="cirkus"] .klavesa:nth-child(3n) { background: #f4b400; color: #2a1238; }
+.kulisa[data-svet="cirkus"] { --k-bg: radial-gradient(ellipse at 50% 100%, #3b1a52, #170a22 70%); }
+[data-theme="light"] .kulisa[data-svet="cirkus"], :root:not([data-theme]) .kulisa[data-svet="cirkus"] { --k-bg: radial-gradient(ellipse at 50% 100%, #6a3a8a, #3b1a52 70%); }
+.kulisa[data-svet="cirkus"] .k-a { fill: #d7263d; } .kulisa[data-svet="cirkus"] .k-b { fill: #fff6e0; }
+.k-kuzel { fill: rgba(255, 240, 180, .14); transform-origin: top; animation: k-kuzel 6s ease-in-out infinite alternate; } @keyframes k-kuzel { to { transform: rotate(8deg); } }
+.k-hvezdicka { fill: #f4b400; animation: k-trpyt 2s ease-in-out infinite; animation-delay: var(--d); } @keyframes k-trpyt { 50% { opacity: .3; } }
+.k-manez { fill: #d7263d; } .k-pisek { fill: #e9c98b; }

@@ -29,4 +29,20 @@ export function kvadr(a, b, c, pop, o = {}) {
     <polyline points="${p(A)} ${p(s(A))} ${p(s(B))}" class="ob-h"/><line x1="${s(A)[0]}" y1="${s(A)[1]}" x2="${s(D)[0]}" y2="${s(D)[1]}" class="ob-h"/>
     ${t((A[0] + B[0]) / 2, y + 24, pop.a, jeQ(pop.a))}${t(B[0] + dx / 2 + 8, y - dy / 2 + 12, pop.b, jeQ(pop.b), 'start')}${t(x - 8, y - c * k / 2 + 5, pop.c, jeQ(pop.c), 'end')}</svg>`;
 }
+// pravoúhlý trojúhelník: odvěsna a vodorovně, b svisle; o.zebrik = přepona jako žebřík opřený o zeď
+export function pravouhly(a, b, pop, o = {}) {
+  const W = 300, H = 210, k = Math.min((W - 120) / a, (H - 50) / b), x = 70, y = H - 30, A = [x, y], B = [x + a * k, y], C = [x, y - b * k], p = P => P.map(v => v.toFixed(1)).join(',');
+  const prictky = o.zebrik ? Array.from({ length: 9 }, (_, i) => { const tt = (i + 1) / 10, X = B[0] + (C[0] - B[0]) * tt, Y = B[1] + (C[1] - B[1]) * tt; return `<line x1="${(X - 5).toFixed(1)}" y1="${(Y - 3).toFixed(1)}" x2="${(X + 5).toFixed(1)}" y2="${(Y + 3).toFixed(1)}" class="ob-z" style="stroke-width:3"/>`; }).join('') : '';
+  const zed = o.zebrik ? `<rect x="${x - 16}" y="${C[1] - 14}" width="16" height="${y - C[1] + 14}" class="ob-z"/><line x1="${x - 30}" y1="${y}" x2="${W - 10}" y2="${y}" class="ob-h" style="stroke-dasharray:none"/>` : '';
+  return `<svg viewBox="0 0 ${W} ${H}" class="ob" role="img" aria-label="pravoúhlý trojúhelník">${zed}<polygon points="${p(A)} ${p(B)} ${p(C)}" class="ob-s"${o.zebrik ? ' style="fill:none"' : ''}/>${prictky}
+    <path d="M${x} ${y - 12}h12v12" class="ob-h" style="stroke-dasharray:none"/>
+    ${t((A[0] + B[0]) / 2, y + 22, pop.a, jeQ(pop.a))}${t(x - (o.zebrik ? 22 : 8), (A[1] + C[1]) / 2 + 5, pop.b, jeQ(pop.b), 'end')}${t((B[0] + C[0]) / 2 + 10, (B[1] + C[1]) / 2 - 8, pop.c, jeQ(pop.c), 'start')}</svg>`;
+}
+// kruh s poloměrem (nebo průměrem); pop = popisek čáry, o.prumer = kreslit průměr
+export function kruh(pop, o = {}) {
+  const W = 300, H = 200, cx = 150, cy = 100, r = 78;
+  const cara = o.prumer ? `<line x1="${cx - r}" y1="${cy}" x2="${cx + r}" y2="${cy}" class="ob-z" style="stroke-width:3"/>` : `<line x1="${cx}" y1="${cy}" x2="${cx + r}" y2="${cy}" class="ob-z" style="stroke-width:3"/>`;
+  return `<svg viewBox="0 0 ${W} ${H}" class="ob" role="img" aria-label="kruh"><circle cx="${cx}" cy="${cy}" r="${r}" class="ob-s"/>${o.mezi ? `<circle cx="${cx}" cy="${cy}" r="${r * o.mezi}" class="ob-s" style="fill:var(--w-pap)"/>` : ''}${cara}<circle cx="${cx}" cy="${cy}" r="3" class="ob-q" style="fill:var(--w-ink)"/>
+    ${t(o.prumer ? cx : cx + r / 2, cy - 10, pop, jeQ(pop))}${o.uvnitr ? t(cx, cy + 34, o.uvnitr, jeQ(o.uvnitr)) : ''}</svg>`;
+}
 export { cz };
