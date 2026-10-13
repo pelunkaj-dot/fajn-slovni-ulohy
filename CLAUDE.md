@@ -27,6 +27,9 @@ Každé téma má vlastní **svět** (`svet` v tématu, definice v `js/svety.js`
 - jiná scéna postupu v liště (vozík v obchodě, vlak po trati, kreslený plán, stoupající hladina, cesta na mapě);
 - úvodní titulek světa se znělkou na začátku série, karta tématu na výpravě i okno výkladu v barvách světa;
 - vlastní hlášky (`ok`, `chyba1`, `chyba2`, `odhaleni`) a vlastní nástroj (`js/zvuky.js`: kov, marimba, gong, drnkání, bublinky); melodie se náhodně střídají a s řadou stoupají.
+- výprava je **mapa čtvrti ročníku** (`js/mapa.js`): ilustrace, kde je každé téma místem; motivy jsou denní doby (světlý = den, tmavý = noc s rozsvícenými okny, růžový = západ slunce), barvy v `css/vzhled.css` (`--m-*`); karty témat mají úrovně jako zastávky na trase ve stylu světa;
+- úloha běží na **kulise světa přes celou obrazovku** (`kulisa` v `js/svety.js`), číselná odpověď má **klávesnici světa** (pokladna, automat na jízdenky…), správná odpověď dostane **razítko**, výsledek série je **doklad světa** (účtenka, jízdní řád, protokol…).
+Písma: Bricolage Grotesque (nadpisy), Atkinson Hyperlegible (zadání), JetBrains Mono (štítky, displeje), všechna lokálně ve `fonts/`.
 Nové téma dostane nový svět (nebo výjimečně sdílí svět s příbuzným tématem ve stejném ročníku). Světy fungují ve všech třech motivech.
 Hotové světy: `trh` (601), `expedice` (602), `nadrazi` (603), `plan` (604), `akvarium` (605). Ke kontrole vzhledu: `node tools/svety-snimky.mjs <složka> [téma…]`.
 

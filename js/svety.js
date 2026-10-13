@@ -40,27 +40,27 @@ const Z = {
 };
 
 export const SVETY = {
-  trh: { nazev: 'Tržnice', stitek: 'Pokladna se ptá', scena: scTrh, nastroj: 'trh',
+  trh: { nazev: 'Tržnice', stitek: 'Pokladna se ptá', scena: scTrh, nastroj: 'trh', razitko: 'Zaplaceno', doklad: 'Účtenka',
     ok: ['Účtenka sedí.', 'Pokladna souhlasí.', 'Ani haléř vedle.', 'Zaplaceno přesně.', 'Kasa cinká.', 'Tohle by prošlo každou kontrolou.'],
     chyba1: ['Pokladna hlásí chybu. Přepočítej to.', 'Tahle částka nesedí.', 'Na účtence je něco jinak. Zkus to znovu.', 'Takhle by to prodavač nevrátil.'],
     chyba2: ['Mrkni na nápovědu a pak znovu k pokladně.', 'Účtenka pořád nesedí. Tady je rada.'],
     odhaleni: ['Takhle se to vyúčtuje správně.', 'Projdi si účtenku krok za krokem.'] },
-  expedice: { nazev: 'Expedice', stitek: 'Zápis do deníku', scena: scExpedice, nastroj: 'expedice',
+  expedice: { nazev: 'Expedice', stitek: 'Zápis do deníku', scena: scExpedice, nastroj: 'expedice', razitko: 'Zapsáno', doklad: 'Deník výpravy',
     ok: ['Kurz je správný.', 'Zápis do deníku sedí.', 'Na trase.', 'Přesně změřeno.', 'Výprava pokračuje.'],
     chyba1: ['Odbočka špatným směrem. Zkus to znovu.', 'Tudy cesta nevede.', 'Mapa říká něco jiného. Přepočítej.'],
     chyba2: ['Zastav a podívej se do nápovědy.', 'Kompas ukazuje jinam. Tady je rada.'],
     odhaleni: ['Takhle vede správná trasa.', 'Projdi si cestu krok za krokem.'] },
-  nadrazi: { nazev: 'Nádraží', stitek: 'Hlášení', scena: scNadrazi, nastroj: 'nadrazi',
+  nadrazi: { nazev: 'Nádraží', stitek: 'Hlášení', scena: scNadrazi, nastroj: 'nadrazi', razitko: 'Odjezd', doklad: 'Jízdní řád',
     ok: ['Spoj odjíždí načas.', 'Přesně podle jízdního řádu.', 'Výhybka přehozena správně.', 'Všechno navazuje.', 'Nástup dokončen.'],
     chyba1: ['Tenhle spoj nejede. Zkus to znovu.', 'Zpoždění! Přepočítej to.', 'Jízdní řád říká něco jiného.'],
     chyba2: ['Pozor, hlášení: nápověda na nástupišti.', 'Ještě jednou podle nápovědy.'],
     odhaleni: ['Správný jízdní řád vypadá takhle.', 'Projdi si to krok za krokem.'] },
-  plan: { nazev: 'Stavební plán', stitek: 'Úkol stavby', scena: scPlan, nastroj: 'plan',
+  plan: { nazev: 'Stavební plán', stitek: 'Úkol stavby', scena: scPlan, nastroj: 'plan', razitko: 'Schváleno', doklad: 'Protokol stavby',
     ok: ['Rozměry sedí.', 'Výkres schválen.', 'Měřeno přesně.', 'Stavba může začít.', 'Na milimetr.'],
     chyba1: ['Na plánu to nevychází. Změř znovu.', 'Stavbyvedoucí nesouhlasí.', 'Tenhle rozměr nesedí.'],
     chyba2: ['Mrkni na nápovědu a narýsuj si to.', 'Pořád to nesedí. Tady je rada.'],
     odhaleni: ['Takhle vypadá správný výpočet.', 'Projdi si plán krok za krokem.'] },
-  akvarium: { nazev: 'Akvárium', stitek: 'Otázka z hlubin', scena: scAkvarium, nastroj: 'akvarium',
+  akvarium: { nazev: 'Akvárium', stitek: 'Otázka z hlubin', scena: scAkvarium, nastroj: 'akvarium', razitko: 'Přesně', doklad: 'Záznam z hlubin',
     ok: ['Hladina sedí.', 'Ryby jsou spokojené.', 'Přesně po okraj.', 'Ani kapka navíc.', 'Bublinky souhlasí.'],
     chyba1: ['Přeteklo to. Zkus to znovu.', 'Hladina nesedí.', 'Tolik vody tam není.'],
     chyba2: ['Ponoř se do nápovědy.', 'Pořád to nesedí. Tady je rada.'],
@@ -72,3 +72,22 @@ export function scenaSvg(id, p, n, i) {
   const s = SVETY[id]; if (!s) return '';
   return `<svg viewBox="0 0 300 44" class="scena sc-${id}" aria-hidden="true">${s.scena(p, n, i)}</svg>`;
 }
+
+// Kulisa světa za úlohou (celá obrazovka série). Jen ozdoba: pointer-events none, pod obsahem.
+const ovoce = (x, y) => [0, 1, 2, 3].map(k => `<circle cx="${x + 12 + k * 18}" cy="${y - 4 - (k % 2) * 5}" r="9" class="k-o${k % 3}"/>`).join('');
+const KULISY = {
+  trh: () => `<svg class="k-svg k-horni" viewBox="0 0 400 60" preserveAspectRatio="none"><path d="M0 10 Q100 40 200 14 T400 10" class="k-snura"/>${Array.from({ length: 9 }, (_, i) => { const x = 18 + i * 45, y = 14 + 14 * Math.sin((i + .5) / 9 * Math.PI); return `<path d="M${x - 9} ${y}h18l-9 16z" class="k-pr${i % 3}"/>`; }).join('')}</svg>
+    <svg class="k-svg k-dolni" viewBox="0 0 400 90" preserveAspectRatio="xMidYMax meet"><rect x="0" y="40" width="100" height="50" rx="4" class="k-bedna"/><path d="M0 58h100M0 74h100" class="k-lat"/>${ovoce(0, 40)}<rect x="300" y="46" width="100" height="44" rx="4" class="k-bedna"/><path d="M300 62h100M300 77h100" class="k-lat"/>${ovoce(300, 46)}</svg>`,
+  nadrazi: () => `<svg class="k-svg k-horni" viewBox="0 0 400 140" preserveAspectRatio="xMidYMin slice">${[30, 150, 270].map(x => `<path d="M${x} 140V60a50 50 0 0 1 100 0v80z" class="k-okno"/><path d="M${x + 50} 10v130M${x} 90h100" class="k-mriz"/>`).join('')}</svg>
+    <svg class="k-svg k-dolni" viewBox="0 0 400 70" preserveAspectRatio="none"><rect x="0" y="40" width="400" height="30" class="k-nastupiste"/><rect x="0" y="40" width="400" height="5" class="k-hrana"/>
+      <g class="k-vlak"><rect x="0" y="6" width="150" height="30" rx="8" class="k-vagon"/><rect x="156" y="6" width="150" height="30" rx="8" class="k-vagon"/>${[10, 40, 70, 100, 166, 196, 226, 256].map(x => `<rect x="${x}" y="12" width="22" height="12" rx="2" class="k-okenko"/>`).join('')}</g></svg>`,
+  plan: () => `<svg class="k-svg k-levy" viewBox="0 0 60 400" preserveAspectRatio="xMinYMid meet"><rect x="14" y="20" width="26" height="360" rx="3" class="k-pravitko"/>${Array.from({ length: 36 }, (_, i) => `<line x1="14" y1="${30 + i * 10}" x2="${i % 5 ? 22 : 28}" y2="${30 + i * 10}" class="k-ryska"/>`).join('')}</svg>
+    <svg class="k-svg k-pravy" viewBox="0 0 60 400" preserveAspectRatio="xMaxYMax meet"><g transform="rotate(-12 30 300)"><rect x="22" y="150" width="14" height="210" class="k-tuzka"/><path d="M22 360h14l-7 22z" class="k-hrot"/><rect x="22" y="140" width="14" height="12" class="k-guma"/></g></svg>`,
+  akvarium: () => `<svg class="k-svg k-cela" viewBox="0 0 400 700" preserveAspectRatio="xMidYMax slice">
+      ${[[60, 560, 0], [320, 420, -4], [200, 300, -9]].map(([x, y, d]) => `<g class="k-ryba" style="--d:${d}s;--y:${y}px"><path d="M0 0c12-12 30-12 38 0-8 12-26 12-38 0zM0 0l-13-9v18z" class="k-rybka"/><circle cx="28" cy="-2" r="2" class="k-oko"/></g>`).join('')}
+      ${Array.from({ length: 8 }, (_, i) => `<circle cx="${30 + i * 48}" cy="700" r="${3 + i % 3 * 2}" class="k-bub" style="--d:${-i * 1.3}s"/>`).join('')}
+      ${[20, 70, 340, 380].map((x, i) => `<path d="M${x} 700c-10-40 10-60 0-${100 + i * 20}" class="k-rasa" style="--d:${-i}s"/>`).join('')}</svg>`,
+  expedice: () => `<svg class="k-svg k-dolni" viewBox="0 0 400 120" preserveAspectRatio="none"><path d="M0 120L70 40l40 40 60-70 80 80 50-40 100 70z" class="k-hora"/><path d="M150 34l20-24 22 26-10-4-12 8z" class="k-snih"/></svg>
+    <svg class="k-svg k-horni k-kompas" viewBox="0 0 120 120" preserveAspectRatio="xMaxYMin meet"><circle cx="60" cy="60" r="50" class="k-kruh"/><path d="M60 14l8 46-8 46-8-46z" class="k-strelka"/><text x="60" y="10" class="k-sever">S</text></svg>`,
+};
+export const kulisa = id => KULISY[id] ? `<div class="kulisa" data-svet="${id}" aria-hidden="true">${KULISY[id]()}</div>` : '';

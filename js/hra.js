@@ -4,7 +4,7 @@ import { check, odpoved } from './ulohy.js';
 import { parseNum, unitChoices, cz } from './util.js';
 import { zvuk } from './zvuky.js';
 import { rekni } from './hlasky.js';
-import { svet, znak, scenaSvg } from './svety.js';
+import { svet, znak, scenaSvg, kulisa } from './svety.js';
 import { najdiTema } from './obsah.js';
 import { $, $$, modal, jeModal, zvukBtn, napojZvuk } from './ui.js';
 
@@ -48,7 +48,7 @@ export function serie(root, cfg) {
       ${cfg.vyklad ? '<button class="ik" id="h-vyklad" aria-label="Výklad k tématu">?</button>' : ''}
     </header>
     ${strazce ? `<div class="sz-panel"><div class="sz-obr" id="h-sz">${strazceSvg(cfg.strazce.seed)}</div><div class="sz-info"><b>${cfg.strazce.jmeno}</b><div class="sz-hp"><i id="h-hp"></i></div><small id="h-hpt"></small></div></div>` : ''}
-    <main class="hra-telo" id="h-telo"></main>
+    <div class="kulisa-misto" id="h-kulisa"></div><main class="hra-telo" id="h-telo"></main>
     ${W && !strazce ? `<div class="svet-uvod" data-svet="${W}" aria-hidden="true"><div class="su-znak">${znak(W)}</div><b>${svet(W).nazev}</b>${cfg.nazev ? `<span>${cfg.nazev}</span>` : ''}</div>` : ''}</div>`;
   zvuk.start(W);
   { // úvodní titulek světa: zmizí sám, nebo hned po ťuknutí či klávese
@@ -82,7 +82,9 @@ export function serie(root, cfg) {
   };
 
   function ukaz() {
-    const { u, lvl, navrat } = cfg.ulohy[i]; w = svetUlohy(cfg.ulohy[i]); const S = svet(w);
+    const { u, lvl, navrat } = cfg.ulohy[i]; const pred = w; w = svetUlohy(cfg.ulohy[i]); const S = svet(w);
+    const hraEl = $('.hra', root); if (w) hraEl.dataset.svet = w; else delete hraEl.dataset.svet;
+    if (i === 0 || w !== pred) $('#h-kulisa', root).innerHTML = kulisa(w);
     t = { u, lvl, pokus: 0, nap: 0, hotovo: false, strict: lvl === 3, max: u.kind === 'choice' ? Math.min(3, u.opts.length - 1) : 3, jedn: null, od: Date.now(), chyby: [] };
     lista();
     telo.innerHTML = `<article class="ul ul-${u.kind}${S ? ' ul-svet' : ''}"${S ? ` data-svet="${w}"` : ''} style="--ul-n:${i}">
@@ -95,7 +97,10 @@ export function serie(root, cfg) {
       const jedn = t.strict && u.units ? unitChoices(u.unit) : null;
       odp.innerHTML = `<div class="vstup"><input id="u-in" type="text" inputmode="decimal" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Tvoje odpověď" placeholder="?">${jedn ? '' : `<span class="jedn">${u.unit}</span>`}</div>
         ${jedn ? `<div class="jednotky" role="group" aria-label="Jednotka">${jedn.map(j => `<button class="chip" data-j="${j}">${j}</button>`).join('')}</div>` : ''}
+        <div class="klavesy" role="group" aria-label="Klávesnice">${['7', '8', '9', '4', '5', '6', '1', '2', '3', ',', '0', '⌫'].map(k => `<button type="button" class="klavesa${k === '⌫' ? ' k-smaz' : k === ',' ? ' k-carka' : ''}" data-k="${k}" aria-label="${k === '⌫' ? 'Smazat' : k}">${k}</button>`).join('')}</div>
         ${u.dec != null ? `<p class="pozn">${t.strict ? 'Zaokrouhli přesně' : 'Zaokrouhli'} na ${u.dec === 0 ? 'celé číslo' : u.dec === 1 ? '1 desetinné místo' : u.dec + ' desetinná místa'}.</p>` : ''}`;
+      const pole = $('#u-in', odp); if (matchMedia('(pointer: coarse)').matches) pole.setAttribute('inputmode', 'none'); // na dotykovém displeji píše klávesnice světa
+      $$('.klavesa', odp).forEach(b => b.onclick = () => { if (t.hotovo) return; const k = b.dataset.k; pole.value = k === '⌫' ? pole.value.slice(0, -1) : (pole.value + k).slice(0, 12); zvuk.klik(w); aktivita = true; b.classList.remove('stisk'); void b.offsetWidth; b.classList.add('stisk'); });
       $$('.jednotky .chip', odp).forEach(b => b.onclick = () => { t.jedn = b.dataset.j; $$('.jednotky .chip', odp).forEach(x => x.classList.toggle('on', x === b)); });
     } else if (u.kind === 'dm') {
       odp.innerHTML = `<div class="vstup"><input id="u-in" type="text" inputmode="numeric" autocomplete="off" aria-label="stupně" placeholder="?"><span class="jedn">°</span><input id="u-in2" type="text" inputmode="numeric" autocomplete="off" aria-label="minuty" placeholder="0"><span class="jedn">′</span></div>`;
@@ -155,7 +160,7 @@ export function serie(root, cfg) {
     if (konec) return;
     aktivita = true;
     t.pokus++; combo = 0; zvuk.chyba(w); lista(); if (msg) t.chyby.push(msg);
-    const inp = $('#u-in', telo); if (inp) { inp.classList.remove('trese'); void inp.offsetWidth; inp.classList.add('trese'); inp.select(); }
+    const inp = $('#u-in', telo); if (inp) { inp.classList.remove('trese'); void inp.offsetWidth; inp.classList.add('trese'); inp.select(); } const ulEl = $('.ul', telo); if (ulEl) { ulEl.classList.remove('otres'); void ulEl.offsetWidth; ulEl.classList.add('otres'); }
     if (ztratZivot()) return;
     if (t.pokus >= t.max) return odhal();
     const druha = t.pokus === 2 && !strazce && t.nap < t.u.hints.length;
@@ -169,7 +174,8 @@ export function serie(root, cfg) {
     el.innerHTML = `<div class="reseni"><p class="res-odp">Správná odpověď: <b>${odpoved(u)}</b></p>${u.figSol ? `<div class="ul-obr">${u.figSol}</div>` : ''}${u.steps.length ? `<ol class="res-kroky">${u.steps.map(s => `<li>${s}</li>`).join('')}</ol>` : ''}${alt}</div>`;
   }
   function zapis(vysl) { if (cfg.zaznam) cfg.zaznam({ tema: cfg.ulohy[i].tema, gi: cfg.ulohy[i].gi, lvl: t.lvl, vysl, ms: Date.now() - t.od, chyby: t.chyby, text: [t.u.text, t.u.q].filter(Boolean).join(' '), odp: odpoved(t.u) }); }
-  function zamkni() { t.hotovo = true; aktivita = true; $$('#u-odp input, #u-odp .volba, #u-odp .chip', telo).forEach(x => x.disabled = true); }
+  function zamkni() { t.hotovo = true; aktivita = true; $$('#u-odp input, #u-odp .volba, #u-odp .chip, #u-odp .klavesa', telo).forEach(x => x.disabled = true); const kl = $('.klavesy', telo); if (kl) kl.hidden = true; }
+  function razitko(text, cls = '') { const S = svet(w); if (!S) return; $('.ul', telo).insertAdjacentHTML('beforeend', `<div class="razitko ${cls}" aria-hidden="true"><span>${text}</span></div>`); }
   function spravne() {
     const prvni = t.pokus === 0, k = podilBodu(t.pokus, t.nap), nav = cfg.ulohy[i].navrat; zamkni();
     if (k === 1) combo++; // řada (combo) jen za odpovědi napoprvé bez nápovědy
@@ -179,12 +185,13 @@ export function serie(root, cfg) {
     cfg.ulohy[i].vysl = k === 1 ? 0 : 1;
     zvuk.ok(combo, w); reseni(); zapis(k === 1 ? 0 : 1);
     $('.ul', telo).insertAdjacentHTML('beforeend', `<span class="xp-pop" aria-hidden="true">+${xp}</span>`);
+    if (svet(w)) razitko(svet(w).razitko); const ku = $('.kulisa', root); if (ku) { ku.classList.remove('slavi'); void ku.offsetWidth; ku.classList.add('slavi'); }
     bublina('ok', `+${xp} bodů${prvni && combo >= 2 ? ` · ${combo}× v řadě` : ''}`, rekni(prvni ? 'ok' : 'okPozdeji', w));
     if (strazce) { const s = $('#h-sz', root); s.classList.remove('zasah'); void s.offsetWidth; s.classList.add('zasah'); }
     lista(); akce(); ukazZpravu();
   }
   function odhal() {
-    zamkni(); combo = 0; if (!cfg.ulohy[i].navrat) { res.body.push(0); res.odhaleno++; } cfg.ulohy[i].vysl = 2; zvuk.odhaleni(w); reseni(); zapis(2);
+    zamkni(); combo = 0; if (!cfg.ulohy[i].navrat) { res.body.push(0); res.odhaleno++; } cfg.ulohy[i].vysl = 2; zvuk.odhaleni(w); reseni(); zapis(2); razitko('Řešení', 'sede');
     bublina('bad', '', rekni('odhaleni', w));
     lista(); akce(); ukazZpravu();
   }
