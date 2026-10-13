@@ -6,7 +6,8 @@ Slovní úlohy pro 2. stupeň ZŠ (6.–9. ročník) jako hra. Modul platformy f
 - každé téma ve třech obtížnostech: **Základy**, **Procvičování**, **Jedničkář**
 - školní postup: co vím → co hledám → výpočet → odpověď; cílené rady k typickým chybám
 - hra: body a hodnosti, hvězdy, krystaly, stavba města, obrana města, strážci témat, denní výzva, odznaky, opakování chyb
-- tři motivy (světlý, tmavý, růžový), zvuky, Matýsek a Terezka, přehled pro rodiče
+- každé téma je jiný svět (tržnice, expedice, nádraží, stavební plán, akvárium…) s vlastním vzhledem, scénou postupu a zvuky
+- tři motivy (světlý, tmavý, růžový), přehled pro rodiče
 
 Jádro hry je převzaté z [FajnGeometrie](https://github.com/pelunkaj-dot/fajn-geometrie).
 

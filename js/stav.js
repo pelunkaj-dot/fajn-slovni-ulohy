@@ -1,7 +1,7 @@
 // Uložený postup hráče (jen v zařízení, localStorage).
 const KLIC = 'fajnslovni_v1';
 const VYCHOZI = () => ({
-  v: 1, motiv: 'light', zvuk: true, postavy: true, rocnik: 6,
+  v: 1, motiv: 'light', zvuk: true, rocnik: 6,
   xp: 0, krystaly: 0,
   urovne: {},   // '601-1': { hv: 0–3, her: počet odehraných sérií }
   strazci: {},  // '601': true
@@ -26,7 +26,7 @@ export function nacti() {
 }
 export function uloz() { try { localStorage.setItem(KLIC, JSON.stringify(stav)); } catch (e) { /* nic */ } }
 // Vymazání postupu (jen z přehledu pro rodiče): nastavení, rodičovské heslo a počítadlo ukázky zůstanou.
-export function smaz() { const z = {}; for (const k of ['motiv', 'zvuk', 'postavy', 'rocnik', 'uvod', 'rodic', 'demo']) if (k in stav) z[k] = stav[k]; nastav({ ...VYCHOZI(), ...z }); uloz(); }
+export function smaz() { const z = {}; for (const k of ['motiv', 'zvuk', 'rocnik', 'uvod', 'rodic', 'demo']) if (k in stav) z[k] = stav[k]; nastav({ ...VYCHOZI(), ...z }); uloz(); }
 
 export const HODNOSTI = [[0, 'Nováček'], [150, 'Čtenář zadání'], [400, 'Počtář'], [800, 'Pátrač'], [1400, 'Řešitel'], [2200, 'Stopař'], [3200, 'Detektiv čísel'], [4500, 'Vyšetřovatel'], [6000, 'Expert'], [8000, 'Mistr slovních úloh']];
 export function hodnost(xp = stav.xp) {

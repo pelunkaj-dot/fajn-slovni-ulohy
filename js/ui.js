@@ -14,7 +14,7 @@ export function modal(o) {
   zavriModal(true);
   const el = document.createElement('div');
   el.className = 'okno-pozadi';
-  el.innerHTML = `<div class="okno${o.siroke ? ' okno-siroke' : ''}" role="dialog" aria-modal="true" aria-label="${o.nadpis || ''}">
+  el.innerHTML = `<div class="okno${o.siroke ? ' okno-siroke' : ''}"${o.svet ? ` data-svet="${o.svet}"` : ''} role="dialog" aria-modal="true" aria-label="${o.nadpis || ''}">
     ${o.pevne ? '' : '<button class="okno-x" aria-label="Zavřít">✕</button>'}
     ${o.nadpis ? `<h2 class="okno-h">${o.nadpis}</h2>` : ''}<div class="okno-telo">${o.html || ''}</div>
     <div class="okno-akce">${(o.tlacitka || []).map((b, i) => `<button class="btn${b.hl ? ' hl' : ''}" data-i="${i}">${b.t}</button>`).join('')}</div></div>`;

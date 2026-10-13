@@ -1,34 +1,95 @@
-// Zvuky se skládají za běhu přes Web Audio (žádné soubory).
-let ctx = null, ven = null, zap = true;
+// Zvuky se skládají za běhu přes Web Audio (žádné soubory). Každý svět tématu má vlastní nástroj a znělku,
+// melodie se náhodně střídají (vzorec, rytmus, ladění) a s řadou správných odpovědí stoupají. Vše měkké, bez pípání.
+let ctx = null, ven = null, dozvuk = null, zap = true, sum = null;
 export function nastavZvuk(z) { zap = !!z; }
 export function odemkni() {
   if (ctx) { if (ctx.state === 'suspended') ctx.resume(); return; }
   const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
-  try { ctx = new AC(); ven = ctx.createGain(); ven.gain.value = 0.28; ven.connect(ctx.destination); } catch (e) { ctx = null; }
+  try {
+    ctx = new AC(); ven = ctx.createGain(); ven.gain.value = 0.3; ven.connect(ctx.destination);
+    // jemný dozvuk z doznívajícího šumu, aby tóny nezněly suše
+    const n = ctx.sampleRate * 1.2, ir = ctx.createBuffer(2, n, ctx.sampleRate);
+    for (let c = 0; c < 2; c++) { const d = ir.getChannelData(c); for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n) ** 3; }
+    const conv = ctx.createConvolver(); conv.buffer = ir; dozvuk = ctx.createGain(); dozvuk.gain.value = 0.16; dozvuk.connect(conv); conv.connect(ven);
+    sum = ctx.createBuffer(1, ctx.sampleRate * 0.5, ctx.sampleRate); const s = sum.getChannelData(0); for (let i = 0; i < s.length; i++) s[i] = Math.random() * 2 - 1;
+  } catch (e) { ctx = null; }
 }
 const hz = m => 440 * 2 ** ((m - 69) / 12);
-function ton(m, kdy, dur, typ = 'sine', hlas = 0.5, glide = 0) {
-  if (!ctx || !zap) return;
-  const t = ctx.currentTime + kdy, o = ctx.createOscillator(), g = ctx.createGain();
-  o.type = typ; o.frequency.setValueAtTime(hz(m), t);
-  if (glide) o.frequency.exponentialRampToValueAtTime(hz(m + glide), t + dur);
-  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(hlas, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  o.connect(g); g.connect(ven); o.start(t); o.stop(t + dur + 0.03);
+const nah = (a, b) => a + Math.random() * (b - a);
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const hraje = () => ctx && zap;
+function vystup(g) { g.connect(ven); if (dozvuk) g.connect(dozvuk); }
+function obal(g, t, utok, hlas, dur) { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(hlas, t + utok); g.gain.exponentialRampToValueAtTime(0.0001, t + dur); }
+function osc(m, t, dur, typ, hlas, o = {}) {
+  const os = ctx.createOscillator(), g = ctx.createGain(); let uzel = os;
+  os.type = typ; os.frequency.setValueAtTime(hz(m), t); os.detune.value = nah(-8, 8);
+  if (o.glide) os.frequency.exponentialRampToValueAtTime(hz(m + o.glide), t + (o.glideT || dur));
+  if (o.filtr) { const fl = ctx.createBiquadFilter(); fl.type = 'lowpass'; fl.Q.value = o.q || 1; fl.frequency.setValueAtTime(o.filtr[0], t); fl.frequency.exponentialRampToValueAtTime(o.filtr[1], t + dur); os.connect(fl); uzel = fl; }
+  uzel.connect(g); obal(g, t, o.utok || 0.008, hlas, dur); vystup(g); os.start(t); os.stop(t + dur + 0.05);
 }
-const MOTIVY = [[0, 4, 7], [0, 7, 12], [4, 7, 12], [0, 5, 9], [7, 4, 12], [0, 2, 7]];
-let posl = -1;
+function sumik(t, dur, hlas, freq, typ = 'bandpass') {
+  if (!sum) return;
+  const s = ctx.createBufferSource(), fl = ctx.createBiquadFilter(), g = ctx.createGain();
+  s.buffer = sum; fl.type = typ; fl.frequency.value = freq; fl.Q.value = 1.2; s.connect(fl); fl.connect(g); obal(g, t, 0.003, hlas, dur); vystup(g); s.start(t); s.stop(t + dur + 0.02);
+}
+// nástroje: (výška v MIDI, za kolik sekund, síla 0–1)
+const N = {
+  piano(m, k, v) { const t = ctx.currentTime + k; osc(m, t, 0.5, 'triangle', 0.4 * v); osc(m + 12, t, 0.25, 'sine', 0.12 * v); },
+  kov(m, k, v) { const t = ctx.currentTime + k; [[0, 1, 1.1], [16.6, 0.35, 0.6], [29.2, 0.15, 0.3]].forEach(([d, a, dur]) => osc(m + d, t, dur, 'sine', 0.32 * a * v, { utok: 0.003 })); },
+  marimba(m, k, v) { const t = ctx.currentTime + k; osc(m, t, 0.45, 'sine', 0.5 * v, { utok: 0.004 }); osc(m + 24, t, 0.07, 'sine', 0.18 * v, { utok: 0.002 }); sumik(t, 0.02, 0.05 * v, 2400); },
+  pluck(m, k, v) { const t = ctx.currentTime + k; osc(m, t, 0.42, 'sawtooth', 0.22 * v, { utok: 0.003, filtr: [hz(m) * 9, hz(m) * 1.2], q: 2 }); osc(m - 12, t, 0.3, 'sine', 0.12 * v); },
+  bublina(m, k, v) { const t = ctx.currentTime + k; osc(m, t, 0.16, 'sine', 0.42 * v, { glide: nah(7, 12), glideT: 0.1, utok: 0.004 }); },
+  gong(m, k, v) { const t = ctx.currentTime + k; osc(m, t, 1.4, 'sine', 0.35 * v, { utok: 0.01 }); osc(m + 12, t, 0.7, 'sine', 0.1 * v); osc(m + 19.02, t, 0.4, 'sine', 0.05 * v); },
+};
+const SVET = { // nástroj, základní tón, stupnice (pět tónů)
+  trh: { n: 'kov', z: 79, st: [0, 2, 4, 7, 9] },
+  expedice: { n: 'marimba', z: 67, st: [0, 2, 4, 7, 9] },
+  nadrazi: { n: 'gong', z: 67, st: [0, 4, 7, 9, 11] },
+  plan: { n: 'pluck', z: 62, st: [0, 2, 5, 7, 9] },
+  akvarium: { n: 'bublina', z: 72, st: [0, 3, 5, 7, 10] },
+};
+const VYCH = { n: 'piano', z: 67, st: [0, 2, 4, 7, 9] };
+const VZORCE = [[0, 1, 2], [0, 2, 4], [2, 1, 3], [0, 2, 1, 4], [4, 2, 5], [0, 4, 2, 5], [1, 2, 4], [2, 4, 7], [0, 3, 5], [3, 2, 4, 6]];
+const ton = (S, stupen) => S.z + S.st[((stupen % 5) + 5) % 5] + 12 * Math.floor(stupen / 5);
+let poslVz = -1, poslSvet = null;
+function hraj(s, stupne, krok, sila = 1, posun = 0) { const S = SVET[s] || VYCH; stupne.forEach((d, k) => N[S.n](ton(S, d + posun), k * krok, sila * nah(0.8, 1))); }
+
 export const zvuk = {
-  // správně: stoupající trojzvuk, s řadou bez chyby se zvedá tónina
-  ok(combo = 0) { let i; do { i = Math.floor(Math.random() * MOTIVY.length); } while (i === posl); posl = i; const z = 67 + Math.min(combo, 8); MOTIVY[i].forEach((n, k) => ton(z + n, k * 0.075, 0.2, 'triangle', 0.5)); },
-  chyba() { ton(52, 0, 0.22, 'sine', 0.5, -4); ton(47, 0.1, 0.26, 'sine', 0.4, -3); },
-  klik() { ton(79, 0, 0.05, 'triangle', 0.2); },
-  napoveda() { ton(72, 0, 0.12, 'sine', 0.3); ton(76, 0.09, 0.16, 'sine', 0.3); },
-  odhaleni() { ton(60, 0, 0.3, 'sine', 0.35); ton(64, 0.12, 0.3, 'sine', 0.3); },
-  krok() { ton(74, 0, 0.09, 'triangle', 0.3, 5); },
-  hotovo(hv = 1) { [60, 64, 67, 72, 76].slice(0, 2 + hv).forEach((n, k) => ton(n + 7, k * 0.11, 0.32, 'triangle', 0.5)); },
-  neuspech() { [64, 60, 57].forEach((n, k) => ton(n, k * 0.16, 0.34, 'sine', 0.4)); },
-  zasah() { ton(88, 0, 0.09, 'square', 0.16, -12); ton(64, 0.03, 0.2, 'triangle', 0.4, 12); },
-  dopad() { ton(40, 0, 0.35, 'sawtooth', 0.35, -12); },
-  stavba() { [55, 62, 67, 74].forEach((n, k) => ton(n, k * 0.06, 0.25, 'triangle', 0.45)); },
-  odznak() { [72, 76, 79, 84, 88].forEach((n, k) => ton(n, k * 0.08, 0.28, 'triangle', 0.4)); },
+  // správně: náhodný motiv ve stupnici světa; s řadou bez chyby stoupá
+  ok(combo = 0, s) {
+    if (!hraje()) return;
+    let i; do { i = Math.floor(Math.random() * VZORCE.length); } while (i === poslVz); poslVz = i;
+    hraj(s, VZORCE[i], pick([0.07, 0.09, 0.11]), 1, Math.min(combo, 7));
+    if (s === 'trh' && Math.random() < 0.5) { N.kov(98, 0.32, 0.5); N.kov(103, 0.4, 0.4); } // cinknutí mincí
+    if (s === 'akvarium') for (let k = 0; k < 3; k++) N.bublina(nah(80, 90), 0.25 + k * 0.07, 0.5);
+  },
+  chyba(s) {
+    if (!hraje()) return; const t = ctx.currentTime;
+    if (s === 'trh') { osc(46, t, 0.18, 'square', 0.06, { filtr: [900, 300] }); osc(46, t + 0.2, 0.22, 'square', 0.06, { filtr: [900, 300] }); }
+    else if (s === 'nadrazi') { N.gong(64, 0, 0.6); N.gong(59, 0.22, 0.6); }
+    else if (s === 'plan') { osc(43, t, 0.12, 'sine', 0.5, { glide: -5 }); sumik(t, 0.05, 0.15, 900); osc(43, t + 0.15, 0.14, 'sine', 0.4, { glide: -5 }); }
+    else if (s === 'akvarium') { osc(60, t, 0.25, 'sine', 0.4, { glide: -12 }); osc(55, t + 0.16, 0.3, 'sine', 0.35, { glide: -12 }); }
+    else if (s === 'expedice') { N.marimba(57, 0, 0.8); N.marimba(53, 0.14, 0.7); }
+    else { osc(52, t, 0.22, 'sine', 0.45, { glide: -4 }); osc(47, t + 0.1, 0.26, 'sine', 0.35, { glide: -3 }); }
+  },
+  klik(s) { if (!hraje()) return; if (s === 'nadrazi') sumik(ctx.currentTime, 0.03, 0.2, 3000, 'highpass'); else N.marimba(84 + Math.floor(nah(0, 3)), 0, 0.35); },
+  napoveda(s) { if (hraje()) hraj(s, [4, 2], 0.12, 0.55); },
+  odhaleni(s) { if (hraje()) hraj(s, [4, 3, 2, 0], 0.16, 0.5, -5); },
+  krok(s) { if (hraje()) hraj(s, [pick([0, 2, 4])], 0.1, 0.4, 5); },
+  // znělka světa na začátku série, aby bylo slyšet, že se změnilo téma
+  start(s) {
+    poslSvet = s; if (!hraje()) return; const t = ctx.currentTime;
+    if (s === 'trh') { sumik(t, 0.06, 0.35, 2500); sumik(t + 0.07, 0.05, 0.3, 1800); N.kov(91, 0.14, 0.8); N.kov(96, 0.2, 0.7); }
+    else if (s === 'nadrazi') [67, 72, 76, 72].forEach((m, k) => N.gong(m, k * 0.28, 0.75));
+    else if (s === 'plan') [62, 64, 67, 69].forEach((m, k) => N.pluck(m, k * 0.08, 0.8));
+    else if (s === 'akvarium') for (let k = 0; k < 7; k++) N.bublina(nah(70, 88), k * 0.06, 0.6);
+    else if (s === 'expedice') [67, 71, 69, 74].forEach((m, k) => N.marimba(m, k * 0.12, 0.8));
+    else hraj(s, [0, 2, 4], 0.09, 0.7);
+  },
+  hotovo(hv = 1, s) { if (!hraje()) return; const w = s || poslSvet; hraj(w, [0, 2, 4, 5, 7].slice(0, 2 + hv), 0.12); if (hv >= 3) hraj(w, [7, 9, 10], 0.1, 0.7); },
+  neuspech(s) { if (hraje()) hraj(s || poslSvet, [4, 2, 0], 0.18, 0.6, -5); },
+  zasah() { if (!hraje()) return; const t = ctx.currentTime; sumik(t, 0.12, 0.3, 1600); osc(pick([76, 79, 81]), t + 0.02, 0.2, 'triangle', 0.35, { glide: 12 }); },
+  dopad() { if (!hraje()) return; const t = ctx.currentTime; sumik(t, 0.35, 0.4, 200, 'lowpass'); osc(40, t, 0.35, 'sine', 0.4, { glide: -12 }); },
+  stavba() { if (hraje()) [55, 62, 67, 74].forEach((m, k) => N.marimba(m, k * 0.07, 0.8)); },
+  odznak() { if (hraje()) [72, 76, 79, 84, 88].forEach((m, k) => N.kov(m, k * 0.08, 0.6)); },
 };

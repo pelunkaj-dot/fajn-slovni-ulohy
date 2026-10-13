@@ -36,7 +36,7 @@ def modul(jmeno):
     return f"__m['{jmeno}'] = (() => {{\n{kod}\nreturn {{ {', '.join(dict.fromkeys(jmena))} }};\n}})();\n"
 
 def styly():
-    css = (KOREN / 'css' / 'style.css').read_text(encoding='utf-8')
+    css = (KOREN / 'css' / 'style.css').read_text(encoding='utf-8') + '\n' + (KOREN / 'css' / 'svety.css').read_text(encoding='utf-8')
     def pismo(m):
         data = base64.b64encode((KOREN / 'fonts' / m.group(1)).read_bytes()).decode()
         return f'url(data:font/woff2;base64,{data})'
@@ -52,6 +52,7 @@ def main():
     html = (KOREN / 'index.html').read_text(encoding='utf-8')
     html = html.replace('<script src="/fdc-plugin/fdc-guard.js"></script>\n', '')  # samostatný soubor nemá kde ochranu načíst
     html = html.replace('<link rel="stylesheet" href="css/style.css">', f'<style>\n{styly()}\n</style>')
+    html = html.replace('<link rel="stylesheet" href="css/svety.css">\n', '')
     html = html.replace('<script type="module" src="js/app.js"></script>', ('<script>window.FG_DEMO = true;</script>\n' if demo else '') + f'<script>\n{js}</script>')
     assert 'src="js/app.js"' not in html and 'fdc-guard' not in html and 'href="css/style.css"' not in html
     vystup.write_text(html, encoding='utf-8')

@@ -1,0 +1,214 @@
+/* Světy témat: každé téma má jinou kartu úlohy, jiné pozadí, jiná tlačítka, jinou scénu postupu.
+   Proměnné světa: --w-pap (papír karty), --w-ink (text), --w-mut (méně důležitý text), --w-acc (hlavní barva),
+   --w-acc2 (doplňková), --w-line (linky), --w-in-bg / --w-in-ink (políčko odpovědi), --w-q (písmo otázky). */
+.ul-svet { position: relative; overflow: hidden; background: var(--w-pap); color: var(--w-ink); border-color: var(--w-ink); animation: ul-prichod .45s cubic-bezier(.2, .9, .3, 1.2) backwards; }
+@keyframes ul-prichod { from { opacity: 0; transform: translateY(18px) rotate(var(--w-rot, -1.5deg)) scale(.97); } }
+.ul-hlava { display: flex; align-items: center; gap: 8px; margin: -4px 0 10px; font: 700 .8rem/1 ui-monospace, 'Cascadia Mono', Consolas, monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--w-mut); }
+.ul-znak svg { width: 30px; height: 30px; display: block; }
+.ul-svet-n { flex: 1; }
+.ul-cis { font-variant-numeric: tabular-nums; }
+.ul-svet .ul-text { font-size: 1.1rem; }
+.ul-svet .ul-text b { color: var(--w-acc); }
+.ul-svet .ul-q { font-family: var(--w-q, 'Baloo 2'), sans-serif; }
+.ul-stitek { display: block; width: max-content; max-width: 100%; margin-bottom: 4px; padding: 1px 8px; font: 700 .72rem/1.5 ui-monospace, Consolas, monospace; letter-spacing: .14em; text-transform: uppercase; background: var(--w-acc); color: var(--w-pap); border-radius: 4px; }
+.ul-svet .vstup input { background: var(--w-in-bg); color: var(--w-in-ink); border-color: var(--w-ink); }
+.ul-svet .jedn, .ul-svet .pozn { color: var(--w-mut); }
+.ul-svet .volba { background: var(--w-pap); color: var(--w-ink); border-color: var(--w-ink); box-shadow: 0 3px 0 var(--w-ink); }
+.ul-svet .volba.dobre { background: #dff5e6; color: #11663a; border-color: #11663a; }
+.ul-svet .volba.spatne { background: #fbe3e3; color: #a3202b; border-color: #a3202b; }
+.ul-svet .ul-zv { color: #14213d; }
+.ul-svet .ul-zv.ok { background: #dff5e6; } .ul-svet .ul-zv.bad { background: #fbe3e3; } .ul-svet .ul-zv.info { background: #fff2d1; }
+.zv-ik { flex: none; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; font: 800 1rem 'Baloo 2', sans-serif; color: #fff; background: #11663a; }
+.ul-zv.bad .zv-ik { background: #a3202b; } .ul-zv.info .zv-ik { background: #b07400; }
+.ul-zv.ok .zv-ik { animation: razitko .35s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes razitko { from { transform: scale(2.2) rotate(-20deg); opacity: 0; } }
+.ul-svet .napoveda { background: var(--w-hint-bg, #eef3ff); color: var(--w-hint-ink, #14213d); border-left-color: var(--w-acc); }
+.ul-svet .nap-n { color: var(--w-hint-n, var(--w-acc)); }
+.ul-svet .reseni { border-color: var(--w-line); }
+.ul-svet .ul-akce.lepi { background: var(--w-pap); border-top-color: var(--w-line); }
+.ul-svet .btn { background: var(--w-pap); color: var(--w-ink); border-color: var(--w-ink); box-shadow: 0 3px 0 var(--w-ink); }
+.ul-svet .btn.hl { background: var(--w-acc); color: var(--w-acc-ink, #fff); }
+.ul-pata { margin: 14px -14px -14px; height: 16px; }
+.ul-navrat { color: #14213d; }
+.xp-pop { position: absolute; right: 18px; top: 40px; font: 800 1.6rem 'Baloo 2', sans-serif; color: var(--w-acc, var(--accent)); pointer-events: none; animation: xp-pop 1.1s ease-out forwards; }
+@keyframes xp-pop { 0% { opacity: 0; transform: translateY(10px) scale(.6); } 20% { opacity: 1; transform: translateY(0) scale(1.15); } 100% { opacity: 0; transform: translateY(-46px) scale(1); } }
+
+/* scéna postupu v liště */
+.postup-sc { height: 44px; }
+.scena { display: block; width: 100%; height: 44px; overflow: visible; }
+.scena * { vector-effect: non-scaling-stroke; }
+.sc-l { fill: none; stroke: var(--w-acc); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.sc-t { fill: none; stroke: var(--muted); stroke-width: 1.2; opacity: .6; }
+.sc-v { fill: none; stroke: var(--muted); stroke-width: 1.5; opacity: .7; }
+.sc-f { fill: var(--w-acc); stroke: none; }
+.sc-o { fill: var(--panel); stroke: var(--w-acc); stroke-width: 1.5; }
+.sc-car { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.sc-a { transition: transform .6s cubic-bezier(.3, 1.4, .5, 1); }
+.sc-cara { stroke-dasharray: 1; transition: stroke-dashoffset .8s ease; }
+.sc-akvarium .sc-v { fill: var(--w-acc); opacity: .25; stroke: none; transition: all .8s; }
+.sc-akvarium .sc-o { fill: none; stroke: var(--ink); stroke-width: 2; }
+.sc-b { fill: none; stroke: var(--w-acc); stroke-width: 1.4; animation: sc-bub 2.4s ease-in infinite; }
+.sc-b1 { animation-delay: .8s; } .sc-b2 { animation-delay: 1.6s; }
+@keyframes sc-bub { from { transform: translateY(6px); opacity: 0; } 30% { opacity: 1; } to { transform: translateY(-26px); opacity: 0; } }
+
+/* úvodní titulek světa na začátku série */
+.svet-uvod { position: fixed; inset: 0; z-index: 30; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; pointer-events: none;
+  background: var(--w-pap); color: var(--w-ink); animation: su-pryc 1.3s ease-in forwards; }
+.svet-uvod .su-znak svg { width: 120px; height: 120px; animation: su-znak 1.2s cubic-bezier(.3, 1.5, .5, 1); }
+.svet-uvod b { font: 800 2.4rem/1 'Baloo 2', sans-serif; letter-spacing: .04em; animation: su-text .8s .15s cubic-bezier(.3, 1.4, .5, 1) backwards; }
+.svet-uvod span { font: 600 1rem ui-monospace, Consolas, monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--w-mut); animation: su-text .8s .3s backwards; }
+@keyframes su-pryc { 0%, 55% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+@keyframes su-znak { from { transform: scale(.2) rotate(-25deg); opacity: 0; } }
+@keyframes su-text { from { transform: translateY(20px); opacity: 0; } }
+
+/* výsledek série ve světě */
+.ram[data-svet] { background: linear-gradient(180deg, color-mix(in srgb, var(--w-acc) 16%, transparent), transparent 340px); }
+.vysl-znak svg { width: 96px; height: 96px; animation: su-znak .9s cubic-bezier(.3, 1.5, .5, 1); }
+.vysl-hlaska { font: 600 1.15rem 'Baloo 2', sans-serif; max-width: 460px; margin: 0 auto 12px; }
+.vitej-p { flex-wrap: wrap; }
+.vitej-z svg { width: 48px; height: 48px; display: block; animation: su-znak .8s cubic-bezier(.3, 1.5, .5, 1) backwards; }
+.vitej-z:nth-child(2) svg { animation-delay: .1s; } .vitej-z:nth-child(3) svg { animation-delay: .2s; } .vitej-z:nth-child(4) svg { animation-delay: .3s; } .vitej-z:nth-child(5) svg { animation-delay: .4s; }
+
+/* znaky světů */
+.z-p { fill: var(--w-pap); stroke: var(--w-ink); stroke-width: 2.5; stroke-linejoin: round; }
+.z-d { fill: var(--w-acc); stroke: var(--w-ink); stroke-width: 2.5; stroke-linejoin: round; }
+.z-k { fill: var(--w-acc2); stroke: var(--w-ink); stroke-width: 2; stroke-linejoin: round; }
+.z-l { fill: none; stroke: var(--w-ink); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.z-s { fill: none; stroke: var(--w-pap); stroke-width: 1; opacity: .5; }
+.z-t { font: 800 13px ui-monospace, Consolas, monospace; fill: var(--w-acc); }
+
+/* karty témat na výpravě */
+.tema[data-svet] { position: relative; overflow: hidden; background: var(--w-pap); color: var(--w-ink); border-color: var(--w-ink); }
+.tema[data-svet] .tema-n p { color: var(--w-mut); }
+.tema[data-svet] .tema-ik { width: 56px; height: 56px; background: none; border: 0; }
+.tema[data-svet] .tema-ik svg { width: 56px; height: 56px; }
+.tema[data-svet]:hover .tema-ik svg { animation: su-znak .6s cubic-bezier(.3, 1.5, .5, 1); }
+.tema-svet { display: inline-block; margin-bottom: 6px; padding: 1px 8px; font: 700 .7rem/1.6 ui-monospace, Consolas, monospace; letter-spacing: .16em; text-transform: uppercase; background: var(--w-acc); color: var(--w-pap); border-radius: 4px; }
+.tema[data-svet] .uroven { background: var(--w-pap); color: var(--w-ink); border-color: var(--w-ink); box-shadow: 0 3px 0 var(--w-ink); }
+.tema[data-svet] .ur-c { background: var(--w-acc); color: var(--w-acc-ink, #fff); }
+.tema[data-svet] .ur-z { color: var(--w-mut); }
+.tema[data-svet] .uroven.zamek { box-shadow: none; color: var(--w-mut); }
+.tema[data-svet] .btn { background: var(--w-pap); color: var(--w-ink); border-color: var(--w-ink); box-shadow: 0 2px 0 var(--w-ink); }
+.tema[data-svet] .hv i { color: var(--w-line); } .tema[data-svet] .hv i.on { color: var(--w-acc2); }
+
+/* ================= TRŽNICE: účtenka, cenovky, displej pokladny ================= */
+[data-svet="trh"] { --w-pap: #fffdf5; --w-ink: #2b2620; --w-mut: #7b6f5d; --w-acc: #d6402e; --w-acc2: #f2b632; --w-line: #d9cfbd;
+  --w-in-bg: #13291d; --w-in-ink: #8dffad; --w-q: ui-monospace; --w-hint-bg: #fff6d9; --w-rot: 1.5deg; }
+[data-theme="dark"] [data-svet="trh"] { --w-pap: #f1ead9; }
+.hra[data-svet="trh"] .hra-telo { background: repeating-linear-gradient(90deg, #d6402e 0 26px, #fffdf5 26px 52px) top / 100% 18px no-repeat; padding-top: 34px; }
+.hra[data-svet="trh"] .hra-telo::before { content: ''; display: block; height: 14px; margin: -16px -12px 4px; background: radial-gradient(circle at 13px 0, #d6402e 12px, transparent 13px) 0 0 / 26px 14px repeat-x, radial-gradient(circle at 13px 0, #fffdf5 12px, transparent 13px) 26px 0 / 52px 14px repeat-x; }
+.ul[data-svet="trh"] { border-radius: 4px 4px 0 0; border-bottom: 0; }
+.ul[data-svet="trh"] .ul-hlava { justify-content: center; border-bottom: 2px dashed var(--w-line); padding-bottom: 10px; }
+.ul[data-svet="trh"] .ul-svet-n { flex: none; font-size: 1rem; color: var(--w-ink); }
+.ul[data-svet="trh"] .ul-zadani { border-bottom: 2px dashed var(--w-line); margin-bottom: 10px; }
+.ul[data-svet="trh"] .ul-q { font-size: 1.1rem; letter-spacing: -.01em; }
+.ul[data-svet="trh"] .vstup input { font-family: ui-monospace, Consolas, monospace; letter-spacing: .08em; text-align: right; border-radius: 6px; box-shadow: inset 0 0 12px rgba(0, 0, 0, .6); text-shadow: 0 0 6px rgba(141, 255, 173, .7); }
+.ul[data-svet="trh"] .volba { position: relative; border-radius: 6px 18px 18px 6px; padding-left: 30px; transform: rotate(-.6deg); }
+.ul[data-svet="trh"] .volba:nth-child(even) { transform: rotate(.7deg); }
+.ul[data-svet="trh"] .volba::before { content: ''; position: absolute; left: 10px; top: 50%; width: 9px; height: 9px; margin-top: -5px; border-radius: 50%; border: 2px solid var(--w-ink); background: var(--bg); }
+.ul[data-svet="trh"] .ul-pata { height: 46px; background:
+  linear-gradient(135deg, var(--w-pap) 8px, transparent 0) 0 100% / 16px 12px repeat-x, linear-gradient(225deg, var(--w-pap) 8px, transparent 0) 0 100% / 16px 12px repeat-x,
+  repeating-linear-gradient(90deg, var(--w-ink) 0 2px, transparent 2px 4px, var(--w-ink) 4px 7px, transparent 7px 9px, var(--w-ink) 9px 10px, transparent 10px 13px) 50% 6px / 140px 22px no-repeat; }
+.tema[data-svet="trh"] { border-radius: 4px; border-top: 8px solid #d6402e; padding-bottom: 22px; }
+.tema[data-svet="trh"]::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 10px; background: linear-gradient(135deg, var(--bg) 6px, transparent 0) 0 0 / 12px 10px repeat-x, linear-gradient(225deg, var(--bg) 6px, transparent 0) 0 0 / 12px 10px repeat-x; transform: rotate(180deg); }
+
+/* ================= EXPEDICE: deník na mapě, metr na okraji ================= */
+[data-svet="expedice"] { --w-pap: #f4e8cc; --w-ink: #3a2c1a; --w-mut: #7c6545; --w-acc: #2f7d5b; --w-acc2: #e0a526; --w-line: #cdb68a;
+  --w-in-bg: transparent; --w-in-ink: #3a2c1a; --w-hint-bg: #fffaf0; --w-rot: -2deg; }
+[data-theme="dark"] [data-svet="expedice"] { --w-pap: #e6d7b5; }
+.hra[data-svet="expedice"] .hra-telo { background: repeating-radial-gradient(circle at 80% 10%, transparent 0 22px, color-mix(in srgb, #2f7d5b 14%, transparent) 22px 23px); }
+.ul[data-svet="expedice"], .tema[data-svet="expedice"] { border-radius: 6px 14px 14px 6px; border-left: 18px solid #f2c230;
+  border-image: repeating-linear-gradient(180deg, #3a2c1a 0 2px, #f2c230 2px 10px) 0 0 0 18 / 0 0 0 18px;
+  background-image: repeating-radial-gradient(circle at 110% -10%, transparent 0 30px, rgba(58, 44, 26, .07) 30px 31px); }
+.ul[data-svet="expedice"] .ul-hlava::after { content: 'deník výpravy'; padding: 2px 6px; border: 2px solid var(--w-acc); color: var(--w-acc); border-radius: 4px; transform: rotate(-6deg); }
+.ul[data-svet="expedice"] .vstup input { border-width: 0 0 3px; border-radius: 0; font-size: 1.6rem; }
+.ul[data-svet="expedice"] .volba { border-style: dashed; border-radius: 4px; box-shadow: 3px 3px 0 var(--w-acc2); }
+.ul[data-svet="expedice"] .napoveda { transform: rotate(-.6deg); box-shadow: 2px 3px 0 rgba(58, 44, 26, .15); }
+.ul[data-svet="expedice"] .ul-pata { background: radial-gradient(circle, var(--w-acc) 2.5px, transparent 3px) 0 50% / 18px 16px repeat-x; }
+
+/* ================= NÁDRAŽÍ: odjezdová tabule ================= */
+[data-svet="nadrazi"] { --w-pap: #16191f; --w-ink: #f3efe2; --w-mut: #a8a28f; --w-acc: #ffc832; --w-acc2: #3d8bff; --w-line: #3a3f4b; --w-acc-ink: #16191f;
+  --w-in-bg: #0b0d11; --w-in-ink: #ffc832; --w-q: ui-monospace; --w-hint-bg: #0f3b7a; --w-hint-ink: #ffffff; --w-hint-n: #ffc832; --w-rot: 0deg; }
+.hra[data-svet="nadrazi"] .hra-telo { background: linear-gradient(transparent 0 calc(100% - 26px), #6b5a48 calc(100% - 26px)), repeating-linear-gradient(90deg, transparent 0 34px, rgba(107, 90, 72, .25) 34px 40px); }
+.ul[data-svet="nadrazi"] { border-radius: 6px; border-width: 3px; box-shadow: 0 8px 0 #2b2f38; animation-name: ul-preklop; animation-duration: .5s; transform-origin: top; }
+@keyframes ul-preklop { from { transform: perspective(600px) rotateX(-75deg); opacity: 0; } }
+.ul[data-svet="nadrazi"] .ul-hlava { color: var(--w-acc); border-bottom: 1px solid var(--w-line); padding-bottom: 8px; }
+.ul[data-svet="nadrazi"] .ul-hlava::after { content: 'odjezdy · departures'; color: var(--w-mut); letter-spacing: .08em; font-size: .7rem; }
+.ul[data-svet="nadrazi"] .ul-svet-n { flex: none; }
+.ul[data-svet="nadrazi"] .ul-q { color: var(--w-acc); text-transform: uppercase; font-size: 1.05rem; letter-spacing: .03em; padding: 8px 10px; border-radius: 4px;
+  background: linear-gradient(#22262f 0 calc(50% - 1px), #0b0d11 calc(50% - 1px) calc(50% + 1px), #1c2028 calc(50% + 1px)); }
+.ul[data-svet="nadrazi"] .ul-stitek { background: var(--w-acc2); color: #fff; }
+.ul[data-svet="nadrazi"] .vstup input { font-family: ui-monospace, Consolas, monospace; font-weight: 800; letter-spacing: .25em; border-color: var(--w-acc); background: linear-gradient(#1c2028 0 49%, #000 49% 51%, #15181e 51%); }
+.ul[data-svet="nadrazi"] .volba { background: #0f3b7a; color: #fff; border-color: #fff; box-shadow: 0 3px 0 #000; border-radius: 6px; font-family: ui-monospace, Consolas, monospace; }
+.ul[data-svet="nadrazi"] .ul-pata { background: repeating-linear-gradient(-45deg, #ffc832 0 12px, #16191f 12px 24px); }
+.tema[data-svet="nadrazi"] { border-width: 3px; border-radius: 6px; box-shadow: 0 6px 0 #2b2f38; }
+.tema[data-svet="nadrazi"] h2 { color: var(--w-acc); font-family: ui-monospace, Consolas, monospace; text-transform: uppercase; font-size: 1.1rem; }
+
+/* ================= STAVEBNÍ PLÁN: modrotisk, rohové kóty, razítko výkresu ================= */
+[data-svet="plan"] { --w-pap: #1d4f8f; --w-ink: #ffffff; --w-mut: #b9d0f0; --w-acc: #ffd166; --w-acc2: #7fd1ff; --w-line: rgba(255, 255, 255, .35); --w-acc-ink: #1d4f8f;
+  --w-in-bg: rgba(255, 255, 255, .08); --w-in-ink: #ffffff; --w-hint-bg: #fff3b0; --w-hint-ink: #3a3000; --w-hint-n: #8a5a00; --w-rot: 1deg;
+  --fg-ink: #ffffff; --fg-acc: #ffd166; --fg-help: #b9d0f0; --fg-fill: rgba(255, 209, 102, .15); --fg-q: #ffd166; }
+.ul[data-svet="plan"], .tema[data-svet="plan"] { border-radius: 2px; border: 2px solid #fff; outline: 2px solid #1d4f8f;
+  background-image: linear-gradient(rgba(255, 255, 255, .08) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .08) 1px, transparent 1px), linear-gradient(rgba(255, 255, 255, .16) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .16) 1px, transparent 1px);
+  background-size: 12px 12px, 12px 12px, 60px 60px, 60px 60px; }
+.ul[data-svet="plan"]::before { content: ''; position: absolute; inset: 6px; border: 1px solid var(--w-line); pointer-events: none; }
+.ul[data-svet="plan"] .ul-q { font-style: italic; }
+.ul[data-svet="plan"] .vstup input { border-style: dashed; }
+.ul[data-svet="plan"] .volba { border-style: dashed; background: transparent; color: #fff; border-color: #fff; box-shadow: none; }
+.ul[data-svet="plan"] .napoveda { transform: rotate(-1deg); border-left: 0; border-radius: 2px; box-shadow: 3px 4px 0 rgba(0, 0, 0, .25); }
+.ul[data-svet="plan"] .ul-obr { background: transparent; border: 1px dashed var(--w-line); }
+.ul[data-svet="plan"] .ul-pata { height: 34px; margin-left: 40%; border-top: 1px solid #fff; border-left: 1px solid #fff; background: linear-gradient(90deg, transparent 49.5%, #fff 49.5% 50.5%, transparent 50.5%); position: relative; }
+.ul[data-svet="plan"] .ul-pata::before { content: 'výkres'; position: absolute; left: 8px; top: 8px; font: 700 .7rem ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--w-mut); }
+.ul[data-svet="plan"] .ul-pata::after { content: '1 : 100'; position: absolute; right: 8px; top: 8px; font: 700 .7rem ui-monospace, monospace; color: var(--w-mut); }
+.hra[data-svet="plan"] .hra-telo { background: linear-gradient(90deg, transparent 0 calc(50% - .5px), color-mix(in srgb, #1d4f8f 18%, transparent) calc(50% - .5px) calc(50% + .5px), transparent 0); }
+
+/* ================= AKVÁRIUM: voda, bublinky, písek ================= */
+[data-svet="akvarium"] { --w-pap: #e8fbff; --w-ink: #0c3346; --w-mut: #3f6f84; --w-acc: #0b8fb8; --w-acc2: #ff8a3d; --w-line: #9fd7e8;
+  --w-in-bg: rgba(255, 255, 255, .85); --w-in-ink: #0c3346; --w-hint-bg: rgba(255, 255, 255, .75); --w-rot: -1deg; }
+.ul[data-svet="akvarium"], .tema[data-svet="akvarium"] { border-radius: 26px; border-width: 3px; background: linear-gradient(180deg, #f2fdff 0%, #c9f0fa 45%, #8fd6ec 100%); }
+.ul[data-svet="akvarium"]::before, .ul[data-svet="akvarium"]::after, .tema[data-svet="akvarium"]::before { content: ''; position: absolute; width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .9); background: rgba(255, 255, 255, .25); bottom: 20px; left: 12%; animation: bublina 5s ease-in infinite; pointer-events: none; }
+.ul[data-svet="akvarium"]::after { left: 84%; width: 9px; height: 9px; animation-duration: 3.6s; animation-delay: 1.2s; }
+.tema[data-svet="akvarium"]::before { left: 90%; animation-duration: 4s; }
+@keyframes bublina { 0% { transform: translateY(0) translateX(0); opacity: 0; } 15% { opacity: 1; } 50% { transform: translateY(-160px) translateX(8px); } 100% { transform: translateY(-340px) translateX(-6px); opacity: 0; } }
+.ul[data-svet="akvarium"] .vstup input { border-radius: 999px; text-align: center; }
+.ul[data-svet="akvarium"] .volba { border-radius: 999px; text-align: center; background: rgba(255, 255, 255, .8); }
+.ul[data-svet="akvarium"] .napoveda { border-left: 0; border-radius: 16px; backdrop-filter: blur(4px); }
+.ul[data-svet="akvarium"] .ul-akce.lepi { background: #b3e6f4; }
+.ul[data-svet="akvarium"] .ul-pata { height: 28px; background: radial-gradient(circle at 20% 70%, #c9b28a 4px, transparent 5px), radial-gradient(circle at 55% 60%, #a8916b 5px, transparent 6px), radial-gradient(circle at 80% 75%, #d8c49c 3px, transparent 4px), linear-gradient(transparent 30%, #e8d6ae 30%); }
+.hra[data-svet="akvarium"] .hra-telo { background: linear-gradient(180deg, transparent, color-mix(in srgb, #0b8fb8 18%, transparent)); }
+
+/* doladění: scéna bez podkladu lišty, zubatý okraj účtenky, pozadí úvodních titulků */
+.postup.postup-sc { background: none; border: 0; box-shadow: none; }
+.ul[data-svet="trh"] { -webkit-mask: linear-gradient(#000 0 0) top / 100% calc(100% - 9px) no-repeat, conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 18px 9px repeat-x;
+  mask: linear-gradient(#000 0 0) top / 100% calc(100% - 9px) no-repeat, conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 18px 9px repeat-x; }
+.ul[data-svet="trh"] .ul-pata { height: 50px; background: repeating-linear-gradient(90deg, var(--w-ink) 0 2px, transparent 2px 4px, var(--w-ink) 4px 7px, transparent 7px 9px, var(--w-ink) 9px 10px, transparent 10px 13px) 50% 4px / 150px 24px no-repeat; }
+.svet-uvod[data-svet="trh"] { background: repeating-linear-gradient(90deg, #d6402e 0 30px, #fffdf5 30px 60px) top / 100% 70px no-repeat, var(--w-pap); }
+.svet-uvod[data-svet="nadrazi"] { background: repeating-linear-gradient(90deg, transparent 0 46px, rgba(255, 200, 50, .08) 46px 48px), var(--w-pap); }
+.svet-uvod[data-svet="nadrazi"] b { color: var(--w-acc); font-family: ui-monospace, Consolas, monospace; text-transform: uppercase; }
+.svet-uvod[data-svet="plan"] { background: linear-gradient(rgba(255, 255, 255, .1) 1px, transparent 1px) 0 0 / 16px 16px, linear-gradient(90deg, rgba(255, 255, 255, .1) 1px, transparent 1px) 0 0 / 16px 16px, var(--w-pap); }
+.svet-uvod[data-svet="akvarium"] { background: linear-gradient(180deg, #f2fdff, #8fd6ec); }
+.svet-uvod[data-svet="expedice"] { background: repeating-radial-gradient(circle at 70% 30%, transparent 0 30px, rgba(58, 44, 26, .08) 30px 32px), var(--w-pap); }
+
+/* obrázky úloh (js/obr.js): barvy podle světa */
+.ob { display: block; width: 100%; max-height: 240px; }
+.ob-s { fill: var(--w-fill, color-mix(in srgb, var(--w-acc) 14%, transparent)); stroke: var(--w-ink); stroke-width: 2.5; stroke-linejoin: round; }
+.ob-z { fill: color-mix(in srgb, var(--w-acc) 40%, transparent); stroke: var(--w-ink); stroke-width: 2; stroke-linejoin: round; }
+.ob-h { fill: none; stroke: var(--w-ink); stroke-width: 1.5; stroke-dasharray: 5 4; opacity: .7; }
+.ob-v { fill: color-mix(in srgb, var(--w-acc) 35%, transparent); stroke: none; }
+.ob-t { font: 700 15px 'Atkinson Hyperlegible', sans-serif; fill: var(--w-ink); }
+.ob-q { font: 800 17px 'Baloo 2', sans-serif; fill: var(--w-acc); }
+.ob-k { fill: none; stroke: var(--w-acc); stroke-width: 1.5; }
+
+/* okna (výklad, strážce) v barvách světa; mimo svět platí barvy motivu */
+:root { --w-pap: var(--panel); --w-ink: var(--ink); --w-mut: var(--muted); --w-acc: var(--accent); --w-acc2: var(--hi); --w-line: var(--line); }
+.okno[data-svet] { background: var(--w-pap); color: var(--w-ink); border-color: var(--w-ink); }
+.okno[data-svet] .okno-h { color: var(--w-acc); }
+.okno[data-svet] .btn, .okno[data-svet] .okno-x { background: var(--w-pap); color: var(--w-ink); border-color: var(--w-ink); box-shadow: 0 3px 0 var(--w-ink); }
+.okno[data-svet] .btn.hl { background: var(--w-acc); color: var(--w-acc-ink, #fff); }
+.okno[data-svet] .vyklad-p, .okno[data-svet] .pozn { color: var(--w-mut); }
+.okno[data-svet] .odkaz { color: var(--w-acc); }
+.okno[data-svet] .ul-obr { background: transparent; border-color: var(--w-line); }
+.okno[data-svet="akvarium"] { background: linear-gradient(180deg, #f2fdff, #c9f0fa); }
+.okno[data-svet="plan"] { background-image: linear-gradient(rgba(255, 255, 255, .08) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .08) 1px, transparent 1px); background-size: 12px 12px; }
+.okno[data-svet="plan"] .vyklad-t b, .okno[data-svet="nadrazi"] .vyklad-t b { color: var(--w-acc); }
+.vyklad-znak svg { width: 72px; height: 72px; display: block; margin: 0 auto 8px; animation: su-znak .8s cubic-bezier(.3, 1.5, .5, 1); }

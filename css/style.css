@@ -165,9 +165,6 @@ b { font-weight: 700; }
 .ul-zv:empty { display: none; }
 .ul-zv.ok, .ul-zv.bad, .ul-zv.info { padding: 8px 12px; }
 .ul-zv.ok { background: var(--ok-bg); } .ul-zv.bad { background: var(--bad-bg); } .ul-zv.info { background: var(--info-bg); }
-.avatar { display: inline-block; flex: none; border-radius: 50%; overflow: hidden; border: 2px solid var(--ink); }
-.avatar svg { display: block; width: 100%; height: 100%; }
-.av-m { width: 44px; height: 44px; } .av-v { width: 76px; height: 76px; }
 .reseni { margin-top: 10px; border: 2px dashed var(--line); border-radius: 10px; padding: 10px 12px; }
 .res-odp { margin: 0 0 4px; }
 .res-kroky { margin: 0; padding-left: 1.3em; }

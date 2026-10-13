@@ -4,7 +4,8 @@ import { check, odpoved } from './ulohy.js';
 import { parseNum, unitChoices, cz } from './util.js';
 import { zvuk } from './zvuky.js';
 import { rekni } from './hlasky.js';
-import { avatar } from './postavy.js';
+import { svet, znak, scenaSvg } from './svety.js';
+import { najdiTema } from './obsah.js';
 import { $, $$, modal, jeModal, zvukBtn, napojZvuk } from './ui.js';
 
 export const BODY = [10, 15, 25];
@@ -25,16 +26,21 @@ export function strazceSvg(seed) {
 
 // cfg: { typ: 'uroven'|'strazce'|'denni'|'opakovani', nazev, ulohy: [{u, lvl, tema, gi}], kdo, zivoty, strazce: {jmeno, seed}, vyklad(), onKonec(res), onZpet(), zaznam(úloha), znovu(úloha) }
 // znovu: nová úloha stejného typu; s ní se na konci kola vrátí až NAVRATU úloh s chybou (do hodnocení série se nepočítají).
+// svět úlohy podle tématu; série má svůj svět, jen když jsou všechny úlohy z jednoho světa
+const svetUlohy = e => (najdiTema(e.tema) || {}).svet || null;
+
 export function serie(root, cfg) {
   let N = cfg.ulohy.length, vraceno = false;
+  const svety = [...new Set(cfg.ulohy.map(svetUlohy))], W = svety.length === 1 ? svety[0] : null;
+  let w = W; // svět právě zobrazené úlohy
   const res = { body: [], xp: 0, odhaleno: 0, comboMax: 0, vyhra: true, n: N, vyreseno: 0, napoprve: 0 };
   let i = 0, combo = 0, zivoty = cfg.zivoty || 0, t = null, konec = false, aktivita = false;
   const strazce = cfg.typ === 'strazce';
 
-  root.innerHTML = `<div class="hra hra-${cfg.typ}">
+  root.innerHTML = `<div class="hra hra-${cfg.typ}"${W ? ` data-svet="${W}"` : ''}>
     <header class="hra-lista">
       <button class="ik" id="h-zpet" aria-label="Ukončit sérii">✕</button>
-      <div class="postup" role="progressbar" aria-valuemin="0" aria-valuemax="${N}"><i id="h-postup"></i></div>
+      <div class="postup${W ? ' postup-sc' : ''}" id="h-postup" role="progressbar" aria-valuemin="0" aria-valuemax="${N}">${W ? '' : '<i></i>'}</div>
       <span class="hra-poc" id="h-poc"></span>
       <span class="combo" id="h-combo" hidden></span>
       ${strazce ? '<span class="zivoty" id="h-ziv"></span>' : ''}
@@ -42,7 +48,13 @@ export function serie(root, cfg) {
       ${cfg.vyklad ? '<button class="ik" id="h-vyklad" aria-label="Výklad k tématu">?</button>' : ''}
     </header>
     ${strazce ? `<div class="sz-panel"><div class="sz-obr" id="h-sz">${strazceSvg(cfg.strazce.seed)}</div><div class="sz-info"><b>${cfg.strazce.jmeno}</b><div class="sz-hp"><i id="h-hp"></i></div><small id="h-hpt"></small></div></div>` : ''}
-    <main class="hra-telo" id="h-telo"></main></div>`;
+    <main class="hra-telo" id="h-telo"></main>
+    ${W && !strazce ? `<div class="svet-uvod" data-svet="${W}" aria-hidden="true"><div class="su-znak">${znak(W)}</div><b>${svet(W).nazev}</b>${cfg.nazev ? `<span>${cfg.nazev}</span>` : ''}</div>` : ''}</div>`;
+  zvuk.start(W);
+  { // úvodní titulek světa: zmizí sám, nebo hned po ťuknutí či klávese
+    const pryc = () => { const u = $('.svet-uvod', root); if (u) u.remove(); document.removeEventListener('pointerdown', pryc); document.removeEventListener('keydown', pryc); };
+    setTimeout(pryc, 1300); document.addEventListener('pointerdown', pryc); document.addEventListener('keydown', pryc);
+  }
   const telo = $('#h-telo', root);
   // Odchod ze série: dokud hráč nic neudělal, odejde hned; jinak se zeptáme (křížek, Esc i Zpět).
   function chceOdejit() {
@@ -54,7 +66,8 @@ export function serie(root, cfg) {
   if (cfg.vyklad) $('#h-vyklad', root).onclick = cfg.vyklad;
 
   function lista() {
-    $('#h-postup', root).style.width = `${100 * i / N}%`;
+    const po = $('#h-postup', root); po.setAttribute('aria-valuenow', i);
+    if (W) po.innerHTML = scenaSvg(W, i / N, N, i); else po.firstChild.style.width = `${100 * i / N}%`;
     $('#h-poc', root).textContent = `${Math.min(i + 1, N)}/${N}`;
     const c = $('#h-combo', root); c.hidden = combo < 2; c.textContent = `${combo}× v řadě`;
     if (strazce) {
@@ -65,17 +78,18 @@ export function serie(root, cfg) {
   const bublina = (typ, text, hlaska) => {
     const el = $('#u-zv', telo); if (!el) return;
     el.className = 'ul-zv ' + typ;
-    el.innerHTML = `${cfg.kdo !== 'Nikdo' && hlaska ? avatar(cfg.kdo, 'av-m') : ''}<div>${hlaska ? `<b>${hlaska}</b> ` : ''}${text || ''}</div>`;
+    el.innerHTML = `<span class="zv-ik" aria-hidden="true">${typ === 'ok' ? '✓' : typ === 'bad' ? '✗' : 'i'}</span><div>${hlaska ? `<b>${hlaska}</b> ` : ''}${text || ''}</div>`;
   };
 
   function ukaz() {
-    const { u, lvl, navrat } = cfg.ulohy[i];
+    const { u, lvl, navrat } = cfg.ulohy[i]; w = svetUlohy(cfg.ulohy[i]); const S = svet(w);
     t = { u, lvl, pokus: 0, nap: 0, hotovo: false, strict: lvl === 3, max: u.kind === 'choice' ? Math.min(3, u.opts.length - 1) : 3, jedn: null, od: Date.now(), chyby: [] };
     lista();
-    telo.innerHTML = `<article class="ul ul-${u.kind}">
-      ${navrat ? '<p class="ul-navrat">Ještě jednou: v podobné úloze byla chyba.</p>' : ''}<div class="ul-zadani">${u.fig ? `<div class="ul-obr">${u.fig}</div>` : ''}<p class="ul-text">${u.text || ''}</p>${u.q ? `<p class="ul-q">${u.q}</p>` : ''}</div>
+    telo.innerHTML = `<article class="ul ul-${u.kind}${S ? ' ul-svet' : ''}"${S ? ` data-svet="${w}"` : ''} style="--ul-n:${i}">
+      ${S ? `<div class="ul-hlava"><span class="ul-znak">${znak(w)}</span><span class="ul-svet-n">${S.nazev}</span><span class="ul-cis">${String(i + 1).padStart(2, '0')}/${String(N).padStart(2, '0')}</span></div>` : ''}
+      ${navrat ? '<p class="ul-navrat">Ještě jednou: v podobné úloze byla chyba.</p>' : ''}<div class="ul-zadani">${u.fig ? `<div class="ul-obr">${u.fig}</div>` : ''}<p class="ul-text">${u.text || ''}</p>${u.q ? `<p class="ul-q">${S ? `<span class="ul-stitek">${S.stitek}</span>` : ''}${u.q}</p>` : ''}</div>
       <div class="ul-odp" id="u-odp"></div><div class="ul-nap" id="u-nap"></div><div class="ul-zv" id="u-zv" aria-live="polite"></div>
-      <div class="ul-res" id="u-res"></div><div class="ul-akce" id="u-akce"></div></article>`;
+      <div class="ul-res" id="u-res"></div><div class="ul-akce" id="u-akce"></div>${S ? '<div class="ul-pata" aria-hidden="true"></div>' : ''}</article>`;
     const odp = $('#u-odp', telo);
     if (u.kind === 'num') {
       const jedn = t.strict && u.units ? unitChoices(u.unit) : null;
@@ -111,7 +125,7 @@ export function serie(root, cfg) {
     const k = t.nap++, nap = $('#u-nap', telo);
     nap.insertAdjacentHTML('beforeend', `<div class="napoveda"><span class="nap-n">${t.strict || u.hints.length < 3 ? 'Nápověda' : NAZEV_KROKU[k] || 'Nápověda'}</span>${u.hints[k]}</div>`);
     aktivita = true;
-    if (!sama) zvuk.napoveda();
+    if (!sama) zvuk.napoveda(w);
     akce();
   }
   function odesli() {
@@ -140,13 +154,13 @@ export function serie(root, cfg) {
   function spatne(msg) {
     if (konec) return;
     aktivita = true;
-    t.pokus++; combo = 0; zvuk.chyba(); lista(); if (msg) t.chyby.push(msg);
+    t.pokus++; combo = 0; zvuk.chyba(w); lista(); if (msg) t.chyby.push(msg);
     const inp = $('#u-in', telo); if (inp) { inp.classList.remove('trese'); void inp.offsetWidth; inp.classList.add('trese'); inp.select(); }
     if (ztratZivot()) return;
     if (t.pokus >= t.max) return odhal();
     const druha = t.pokus === 2 && !strazce && t.nap < t.u.hints.length;
     if (druha) napoveda(true);
-    bublina('bad', msg, rekni(cfg.kdo, druha ? 'chyba2' : 'chyba1'));
+    bublina('bad', msg, rekni(druha ? 'chyba2' : 'chyba1', w));
     akce();
   }
   function reseni() {
@@ -163,14 +177,15 @@ export function serie(root, cfg) {
     res.xp += xp; res.comboMax = Math.max(res.comboMax, combo);
     if (!nav) { res.body.push(k); res.vyreseno++; if (k === 1) res.napoprve++; }
     cfg.ulohy[i].vysl = k === 1 ? 0 : 1;
-    zvuk.ok(combo); reseni(); zapis(k === 1 ? 0 : 1);
-    bublina('ok', `+${xp} bodů${prvni && combo >= 2 ? ` · ${combo}× v řadě` : ''}`, rekni(cfg.kdo, prvni ? 'ok' : 'okPozdeji'));
+    zvuk.ok(combo, w); reseni(); zapis(k === 1 ? 0 : 1);
+    $('.ul', telo).insertAdjacentHTML('beforeend', `<span class="xp-pop" aria-hidden="true">+${xp}</span>`);
+    bublina('ok', `+${xp} bodů${prvni && combo >= 2 ? ` · ${combo}× v řadě` : ''}`, rekni(prvni ? 'ok' : 'okPozdeji', w));
     if (strazce) { const s = $('#h-sz', root); s.classList.remove('zasah'); void s.offsetWidth; s.classList.add('zasah'); }
     lista(); akce(); ukazZpravu();
   }
   function odhal() {
-    zamkni(); combo = 0; if (!cfg.ulohy[i].navrat) { res.body.push(0); res.odhaleno++; } cfg.ulohy[i].vysl = 2; zvuk.odhaleni(); reseni(); zapis(2);
-    bublina('bad', '', rekni(cfg.kdo, 'odhaleni'));
+    zamkni(); combo = 0; if (!cfg.ulohy[i].navrat) { res.body.push(0); res.odhaleno++; } cfg.ulohy[i].vysl = 2; zvuk.odhaleni(w); reseni(); zapis(2);
+    bublina('bad', '', rekni('odhaleni', w));
     lista(); akce(); ukazZpravu();
   }
   // po vyhodnocení posuň obrazovku ke zpětné vazbě (na telefonu bývá pod okrajem)
@@ -184,7 +199,7 @@ export function serie(root, cfg) {
       for (const e of zpet) cfg.ulohy.push({ ...e, navrat: true });
       N = cfg.ulohy.length;
     }
-    if (i >= N || (strazce && res.vyreseno + res.odhaleno >= N)) { konec = true; $('#h-postup', root).style.width = '100%'; uklid(); return cfg.onKonec(res); }
+    if (i >= N || (strazce && res.vyreseno + res.odhaleno >= N)) { konec = true; if (W) $('#h-postup', root).innerHTML = scenaSvg(W, 1, N, N); uklid(); return cfg.onKonec(res); }
     ukaz();
   }
   function klavesa(e) {

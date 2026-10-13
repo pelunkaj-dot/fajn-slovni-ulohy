@@ -19,10 +19,10 @@ Od 8. ročníku: Ú1 = vybrat rovnici, která odpovídá zadání (x je vždy po
 
 ## 6. ročník
 - ✓ **601 Nákupy a ceny** – desetinná čísla v obchodě: cena za více kusů, za jeden kus, kolik zbyde, kolik vrátí, cena za kilogram, výhodnější balení, akce „2 + 1 zdarma“, kolik kusů nejvýš koupím
-- 602 Jednotky v praxi – délka, hmotnost, objem, čas v příběhu (převody, jízdní řád, recept)
-- 603 Dělitelnost v praxi – nejmenší společný násobek (kdy se autobusy zase potkají), největší společný dělitel (stejné balíčky, dlaždice bez řezání)
-- 604 Obvod a obsah v praxi – plot, tapeta, dlaždice, zahrada (obdélník, čtverec, složené útvary)
-- 605 Krychle a kvádr v praxi – akvárium, bazén, krabice (objem, litry, povrch)
+- ✓ **602 Jednotky v praxi** – délka, hmotnost, objem, čas v příběhu (převody, jízdní řád, recept)
+- ✓ **603 Dělitelnost v praxi** – nejmenší společný násobek (kdy se autobusy zase potkají), největší společný dělitel (stejné balíčky, dlaždice bez řezání)
+- ✓ **604 Obvod a obsah v praxi** – plot, tapeta, dlaždice, zahrada (obdélník, čtverec, složené útvary)
+- ✓ **605 Krychle a kvádr v praxi** – akvárium, bazén, krabice (objem, litry, povrch)
 
 ## 7. ročník
 - 701 Zlomky v příběhu – část z celku, zbytek, „třetina z toho, co zbylo“

@@ -7,7 +7,7 @@ Jan, učitel a doučovatel, vývojář platformy fajndoucko.cz (sekce FajnCviče
 - Moduly jsou statické stránky na GitHub Pages. Tři motivy vždy: světlý (výchozí), tmavý, „dívčí“ (růžový). Nikdy se neřídí systémovým tmavým režimem.
 - Postup při chybě: 1. chyba → znovu (nápověda na tlačítku), 2. chyba → nápověda se ukáže sama, 3. chyba → řešení.
 - Skládání souborů z částí Pythonem, nikdy `sed`.
-- Postavičky Matýsek (vtipný, důrazný, smí popichovat) a Terezka (milá). Texty v `js/hlasky.js` jsou psané bez tvarů závislých na rodu hráče.
+- **Bez postaviček** (Matýsek a Terezka sem nepatří, modul není pro malé děti). Hlášky v `js/hlasky.js` a ve světech jsou krátké, věcné, bez tvarů závislých na rodu hráče.
 - Český jazykový obsah kontroluju sám.
 - Jádro (hra, body, opakování, rodiče, motivy, město) je převzaté z FajnGeometrie (`pelunkaj-dot/fajn-geometrie`). Opravu v jádru udělej v obou repozitářích, dokud jádro nebude sdílené.
 
@@ -20,6 +20,15 @@ Slovní úlohy pro 2. stupeň ZŠ **po ročnících (6–9) podle toho, co se v 
 Nejsou to ukázky: hotový rozsáhlý modul, hra má děti bavit. Starý `fdc-plugin/slovni.html` po dokončení tohoto modulu zanikne (rozhodl Jan) a odkaz na webu povede sem.
 
 **Pro koho:** modul vyhledávají hlavně slabší a průměrní žáci. Odborný pojem proto na úrovních Základy a Procvičování vysvětli v závorce, např. „koncentrace (kolik procent roztoku tvoří sůl)“. Jedničkář pojmy zná. Vysvětlení nesmí prozradit výsledek.
+
+## Světy témat (vzhled a zvuk)
+Každé téma má vlastní **svět** (`svet` v tématu, definice v `js/svety.js`, vzhled v `css/svety.css`), aby dítě podle vzhledu i zvuku poznalo, že se změnilo téma. Žádná jednotná šablona:
+- jiná karta úlohy (účtenka se zubatým okrajem, odjezdová tabule, modrotisk výkresu, akvárium s bublinkami, deník s metrem), jiná tlačítka, políčko odpovědi, nápověda i pozadí;
+- jiná scéna postupu v liště (vozík v obchodě, vlak po trati, kreslený plán, stoupající hladina, cesta na mapě);
+- úvodní titulek světa se znělkou na začátku série, karta tématu na výpravě i okno výkladu v barvách světa;
+- vlastní hlášky (`ok`, `chyba1`, `chyba2`, `odhaleni`) a vlastní nástroj (`js/zvuky.js`: kov, marimba, gong, drnkání, bublinky); melodie se náhodně střídají a s řadou stoupají.
+Nové téma dostane nový svět (nebo výjimečně sdílí svět s příbuzným tématem ve stejném ročníku). Světy fungují ve všech třech motivech.
+Hotové světy: `trh` (601), `expedice` (602), `nadrazi` (603), `plan` (604), `akvarium` (605). Ke kontrole vzhledu: `node tools/svety-snimky.mjs <složka> [téma…]`.
 
 ## Pravidla pro slovní úlohy (poučení ze starého modulu)
 - **Zadání musí odpovídat výpočtu.** Každé číslo v zadání má jasný význam a co se počítá, musí jít ze zadání vyčíst. Žádná nemožná zadání (trojúhelník, který neexistuje; 1 500 žáků ve třídě; 0% alkohol).
@@ -52,5 +61,5 @@ Vanilla JS, ES moduly, bez build kroku. Přehled souborů je v README.md.
 - `KROKY=1 NAP=1 node tools/vzorky.mjs 6` – výpis ukázek ke čtení.
 
 ## Stav (říjen 2026)
-Založeno: jádro převzaté z FajnGeometrie (bez konstrukcí a čtvercové sítě), první téma **601 Nákupy a ceny** (3 úrovně, 14 typů úloh) jako vzor pro další.
-Čeká: další témata podle `docs/UCIVO.md` (nejdřív 6. ročník, pak 7.–9.), jazyková kontrola textů (Jan), zapnutí GitHub Pages, odkaz z fajndoucko.cz a zrušení `fdc-plugin/slovni.html`.
+Hotovo: jádro převzaté z FajnGeometrie (bez konstrukcí, čtvercové sítě a postav), světy témat se zvuky, celý 6. ročník: 601–605 (5 témat × 3 úrovně, 70 typů úloh), obrázky pro plán a tělesa (`js/obr.js`).
+Čeká: 7.–9. ročník podle `docs/UCIVO.md`, jazyková kontrola textů (Jan), zapnutí GitHub Pages, odkaz z fajndoucko.cz a zrušení `fdc-plugin/slovni.html`.
